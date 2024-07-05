@@ -53,6 +53,7 @@ function get_popular($days = -1, $limit = 3)
 
 <body>
   <?php include('../components/navbar.php') ?>
+  
   <h1>Portale lettori</h1>
 
   <h3>I più popolari del momento</h3>
