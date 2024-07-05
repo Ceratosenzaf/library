@@ -1,0 +1,45 @@
+body {
+  max-width: var(--bs-breakpoint-md);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background-color: var(--bs-light);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.center {
+  margin-top: 30vh;
+}
+
+nav.navbar {
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+}
+
+nav.navbar > div {
+  max-width: var(--bs-breakpoint-md);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 5;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  text-align: justify;
+}
+
+@media (max-width: 800px) {
+  body {
+    margin: 0 16px;
+  }
+  nav.navbar > div {
+    margin: 0 16px;
+  }
+}
