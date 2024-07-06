@@ -16,7 +16,7 @@ function get_popular($days = -1, $limit = 3)
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore, COUNT(*) tot FROM prestito p
   JOIN copia c ON p.copia = c.id
-  JOIN libro l ON c.isbn = l.isbn
+  JOIN libro l ON c.libro = l.isbn
   WHERE p.inizio >= $1
   GROUP BY l.isbn
   ORDER BY tot

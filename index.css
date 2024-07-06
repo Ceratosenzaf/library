@@ -35,6 +35,10 @@ nav.navbar > div {
   text-align: justify;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 @media (max-width: 800px) {
   body {
     margin: 0 16px;
