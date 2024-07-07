@@ -9,7 +9,6 @@ $isbn = $_GET['isbn'] ?? null;
 if (!$isbn) redirect('./');
 $_SESSION['isbn'] = $isbn;
 
-
 function get_book()
 {
   $isbn = $_SESSION['isbn'];
@@ -137,19 +136,19 @@ function get_sedi_e_copie()
 
   if (!$copieTotali) print '<h3>Al momento non disponibile</h3>';
   else {
-  print '<h3>Prendilo in prestito!</h3>';
-  print '<form action="prenota.php" method="POST" class="mx-auto" style="width:fit-content;">';
-  print '<input class="form-control text-center" name="isbn" title="isbn" placeholder="isbn" type="text" disabled readonly value="'.$_SESSION['isbn'].'">';
-  print '<select name="sede" title="sede" class="form-control text-center d-block my-2" style="max-width:max-content;">';
-  print '<option value="null">Sede qualsiasi</option>';
-  foreach ($sedi as $sede) {
-    $copie = $sede['copie'];
-    $disabled = $copie == 0 ? 'disabled': '';
-    print "<option $disabled value=\"" . $sede['id'] . '">' . $sede['nome'] . ' - ' . $sede['indirizzo'] . " ($copie copie disponibili)</option>";
-  }
-  print '</select>';
-  print '<button class="btn btn-primary" type="submit">Prenota</button>';
-  print '</form>';
+    print '<h3>Prendilo in prestito!</h3>';
+    print '<form action="prenota.php" method="POST" class="mx-auto" style="width:fit-content;">';
+    print '<input class="form-control text-center" name="isbn" title="isbn" placeholder="isbn" type="text" disabled readonly value="' . $_SESSION['isbn'] . '">';
+    print '<select name="sede" title="sede" class="form-control text-center d-block my-2" style="max-width:max-content;">';
+    print '<option value="null">Sede qualsiasi</option>';
+    foreach ($sedi as $sede) {
+      $copie = $sede['copie'];
+      $disabled = $copie == 0 ? 'disabled' : '';
+      print "<option $disabled value=\"" . $sede['id'] . '">' . $sede['nome'] . ' - ' . $sede['indirizzo'] . " ($copie copie disponibili)</option>";
+    }
+    print '</select>';
+    print '<button class="btn btn-primary" type="submit">Prenota</button>';
+    print '</form>';
   }
 
   ?>
