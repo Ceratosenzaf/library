@@ -20,21 +20,24 @@ function count_total_books()
 
 function get_books($pagination)
 {
-  $search = $_GET['search'] ?? null; // TODO: implement
+  $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
-  ORDER BY l.titolo
-  LIMIT $1
-  OFFSET $2
+  WHERE
+    LOWER(l.titolo) LIKE LOWER($1) OR
+    l.isbn LIKE $1
+  ORDER BY l.titolo, l.isbn
+  LIMIT $2
+  OFFSET $3
   ";
 
-  $query_name = "catalogo-$page";
+  $query_name = "catalogo-$page-$search";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
 
   if (!$res) return;
 

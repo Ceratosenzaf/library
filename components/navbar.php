@@ -23,7 +23,7 @@
           </li>
         </ul>
         <form class="d-flex" method="get" action="./catalogo.php">
-          <input class="form-control me-2" name="search" type="search" placeholder="ISBN / nome libro">
+          <input class="form-control me-2" name="search" type="search" placeholder="ISBN / nome libro" value="<?php echo $_GET['search'] ?? null; ?>">
           <button class="btn btn-outline-primary" type="submit">Cerca</button>
         </form>
       </div>
