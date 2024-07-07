@@ -16,16 +16,23 @@
             <a class="nav-link" href="./">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./catalogo.php">Catalogo</a>
+            <?php
+            if ($_SESSION['area'] === 'app') print '<a class="nav-link" href="./catalogo.php">Catalogo</a>';
+            else print '<a class="nav-link" href="./utenti.php">Utenti</a>';
+            ?>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="./profilo.php">Profilo</a>
           </li>
         </ul>
-        <form class="d-flex" method="get" action="./catalogo.php">
-          <input class="form-control me-2" name="search" type="search" placeholder="ISBN / nome libro" value="<?php echo $_GET['search'] ?? null; ?>">
-          <button class="btn btn-outline-primary" type="submit">Cerca</button>
-        </form>
+        <?php
+        if ($_SESSION['area'] === 'app')
+          print '
+            <form class="d-flex" method="get" action="./catalogo.php">
+              <input class="form-control me-2" name="search" type="search" placeholder="ISBN / nome libro" value="' . ($_GET['search'] ?? null) . '">
+              <button class="btn btn-outline-primary" type="submit">Cerca</button>
+            </form>';
+        ?>
       </div>
     </div>
   </nav>

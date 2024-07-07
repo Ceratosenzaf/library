@@ -32,10 +32,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">
-      <?php
-      if ($_SESSION['area'] == 'admin') print("Accedi");
-      else print("Accedi / Registrati");
-      ?>
+      Accedi
     </button>
   </form>
 </body>

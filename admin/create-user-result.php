@@ -2,19 +2,22 @@
 
 include './utils/db.php';
 include './utils/redirect.php';
+include './utils/codice-fiscale.php';
+
+use NigroSimone\CodiceFiscale;
 
 session_start();
 
-$cf = $_SESSION['cf'] ?? '';
-$password = $_SESSION['password'] ?? '';
+$cf = $_POST['cf'] ?? '';
 $nome = $_POST['nome'] ?? '';
 $cognome = $_POST['cognome'] ?? '';
-
-unset($_SESSION['cf']);
-unset($_SESSION['password']);
+$password = $_POST['password'] ?? '';
 
 if ($cf == '' || $password == '' || $nome == '' || $cognome == '')
   redirect_error('input');
+
+$checkCF = new CodiceFiscale();
+if (!$checkCF->validaCodiceFiscale($cf)) redirect_error('input');
 
 // TODO: valida nome e cognome col cf
 
@@ -26,5 +29,4 @@ $res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, $password));
 
 if (!$res) redirect_error('credentials');
 
-$_SESSION['user'] = $cf;
 redirect($_SESSION['area']);

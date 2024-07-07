@@ -17,7 +17,6 @@ check_area('admin');
 
 <body>
   <div>
-
     <?php include('../components/navbar.php') ?>
     <?php include('../components/profile.php') ?>
   </div>
