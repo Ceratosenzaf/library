@@ -14,7 +14,7 @@ function get_user()
   if (!$cf) return;
 
   $sql = "
-  SELECT l.nome, l.cognome, l.cf, l.premium, l.bloccato FROM lettore l
+  SELECT * FROM lettore l
   WHERE l.cf = $1
   LIMIT 1
   ";
@@ -63,6 +63,7 @@ function get_user()
         print '<input type="text" id="nome" name="nome" class="form-control text-center" placeholder="il suo nome" required value="' . get_v('nome') . '" />';
         print '<input type="text" id="cognome" name="cognome" class="form-control text-center" placeholder="il suo cognome" required value="' . get_v('cognome') . '" />';
         if (!$_SESSION['cf']) print '<input type="password" id="password" name="password" class="form-control text-center" placeholder="la sua password" required />';
+        print '<input type="text" id="ritardi" name="ritardi" class="form-control text-center" placeholder="i suoi ritardi" disabled readonly value="' . (get_v('ritardi') ?? 0) . ' ritardi" />';
         print '
         <div class="form-check text-left max-w-content mx-auto">
           <input class="form-check-input" type="checkbox" value="true" name="premium" id="premium" ' . (get_v('premium') == 't' ? 'checked' : '') . ' />
@@ -83,6 +84,7 @@ function get_user()
         ?>
       </form>
 
+      <?php if ($_SESSION['cf']) print '<a href="./reset-user-delays.php">Azzera ritardi</a>'; ?>
       <?php if ($_SESSION['cf']) print '<a href="./prestiti.php?cf=' . $_SESSION['cf'] . '">Prestiti</a>'; ?>
     </div>
   </div>
