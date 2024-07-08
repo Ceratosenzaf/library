@@ -14,7 +14,7 @@
 
   session_start();
   $error = $_SESSION['error'] ?? null;
-  session_unset();
+  unset($_SESSION['error']);
 
   if ($error == 'credentials')
     print("<h1>Credenziali errate</h1>");

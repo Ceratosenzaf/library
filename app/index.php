@@ -33,10 +33,12 @@ function get_popular($days = -1, $limit = 3)
 
   $data = array();
 
-  while ($row = pg_fetch_assoc($res)) 
+  while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data);
+  return get_gallery($data, function ($row) {
+    return get_book_card($row['titolo'], $row['isbn'], $row['trama']);
+  });
 }
 ?>
 
@@ -48,12 +50,12 @@ function get_popular($days = -1, $limit = 3)
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portale lettori - MyBiblioteca</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
- <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="../index.css">
 </head>
 
 <body>
   <?php include('../components/navbar.php') ?>
-  
+
   <h1>Portale lettori</h1>
 
   <h3>I più popolari del momento</h3>

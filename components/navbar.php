@@ -18,7 +18,7 @@
           <li class="nav-item">
             <?php
             if ($_SESSION['area'] === 'app') print '<a class="nav-link" href="./catalogo.php">Catalogo</a>';
-            else print '<a class="nav-link" href="./utenti.php">Utenti</a>';
+            else print '<a class="nav-link" href="./lettori.php">Lettori</a>';
             ?>
           </li>
           <li class="nav-item">

@@ -1,8 +1,8 @@
 <?php
 
-include './utils/db.php';
-include './utils/redirect.php';
-include './utils/codice-fiscale.php';
+include '../utils/db.php';
+include '../utils/redirect.php';
+include '../utils/codice-fiscale.php';
 
 use NigroSimone\CodiceFiscale;
 
@@ -25,8 +25,8 @@ $sql = "INSERT INTO lettore (cf, nome, cognome, password) VALUES ($1, $2, $3, $4
 
 $db = open_pg_connection();
 $res = pg_prepare($db, 'new-user', $sql);
-$res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, $password));
+$res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, md5($password)));
 
 if (!$res) redirect_error('credentials');
 
-redirect($_SESSION['area']);
+redirect('./');

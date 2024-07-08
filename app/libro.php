@@ -109,14 +109,13 @@ function get_sedi_e_copie()
   $sedi = get_sedi_e_copie();
 
   include('../components/card.php');
+  include('../utils/nome.php');
 
   print '<div>';
   print '<h1>' . $libro['titolo'] . '</h1>';
   print '<h5>di ';
   foreach ($autori as $i => $autore) {
-    if (isset($autore['pseudonimo'])) print $autore['pseudonimo'];
-    else if (isset($autore['nome']) && isset($autore['cognome'])) print $autore['nome'] . ' ' . $autore['cognome'];
-    else print $autore['nome'] ?? $autore['cognome'] ?? 'ignoto';
+    print get_writer_name($autore['pseudonimo'] ?? null, $autore['nome'] ?? null, $autore['cognome'] ?? null);
     if ($i != count($autori) - 1) print ', ';
   }
   print '</h5>';
@@ -125,9 +124,9 @@ function get_sedi_e_copie()
   print '<p class="text-justify">' . $libro['trama'] . '</p>';
 
   print '<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center g-4 mb-4">';
-  print '<div class="col">' . get_card('Pubblicazione', $libro['pubblicazione']) . '</div>';
-  print '<div class="col text-capitalize">' . get_card('Editore', $libro['editore']) . '</div>';
-  print '<div class="col">' . get_card('Pagine', $libro['pagine']) . '</div>';
+  print '<div class="col">' . get_simple_card('Pubblicazione', $libro['pubblicazione']) . '</div>';
+  print '<div class="col text-capitalize">' . get_simple_card('Editore', $libro['editore']) . '</div>';
+  print '<div class="col">' . get_simple_card('Pagine', $libro['pagine']) . '</div>';
   print '</div>';
 
   $copieTotali = 0;

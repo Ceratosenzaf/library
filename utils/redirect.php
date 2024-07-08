@@ -6,8 +6,8 @@ function redirect($path)
   exit();
 }
 
-function redirect_error($code)
+function redirect_error($code, $nested = true)
 {
   $_SESSION['error'] = $code;
-  redirect('error.php');
+  redirect($nested ? '../error.php' : 'error.php');
 }
