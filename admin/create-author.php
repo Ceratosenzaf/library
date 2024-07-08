@@ -15,8 +15,8 @@ $biografia = $_POST['biografia'] ?? '';
 $sql = "INSERT INTO autore (nome, cognome, pseudonimo, nascita, morte, biografia) VALUES ($1, $2, $3, $4, $5, $6)";
 
 $db = open_pg_connection();
-$res = pg_prepare($db, 'new-city', $sql);
-$res = pg_execute($db, 'new-city', array(value_or_null($nome), value_or_null($cognome), value_or_null($pseudonimo), value_or_null($nascita), value_or_null($morte), value_or_null($biografia)));
+$res = pg_prepare($db, 'new-author', $sql);
+$res = pg_execute($db, 'new-author', array(value_or_null($nome), value_or_null($cognome), value_or_null($pseudonimo), value_or_null($nascita), value_or_null($morte), value_or_null($biografia)));
 
 if (!$res) redirect_error('credentials');
 

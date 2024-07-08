@@ -15,41 +15,42 @@
           <li class="nav-item">
             <a class="nav-link" href="./">Home</a>
           </li>
-          <li class="nav-item">
-            <?php
-            if ($_SESSION['area'] === 'app') print '<a class="nav-link" href="./catalogo.php">Catalogo</a>';
-            else print '<a class="nav-link" href="./prestiti.php">Prestiti</a>';
-            ?>
-          </li>
           <?php
-          if ($_SESSION['area'] === 'admin') print '
+          if ($_SESSION['area'] === 'app') {
+            print '
+            <li class="nav-item">
+              <a class="nav-link" href="./catalogo.php">Catalogo</a>
+            </li>';
+          } else {
+            print '
+            <li class="nav-item">
+              <a class="nav-link" href="./prestiti.php">Prestiti</a>
+            </li>';
+            print '
             <li class="nav-item">
               <a class="nav-link" href="./lettori.php">Lettori</a>
             </li>';
-          ?>
-          <?php
-          if ($_SESSION['area'] === 'admin') print '
+            print '
             <li class="nav-item">
               <a class="nav-link" href="./libri.php">Libri</a>
             </li>';
-          ?>
-          <?php
-          if ($_SESSION['area'] === 'admin') print '
+            print '
             <li class="nav-item">
               <a class="nav-link" href="./autori.php">Autori</a>
             </li>';
-          ?>
-          <?php
-          if ($_SESSION['area'] === 'admin') print '
+            print '
+            <li class="nav-item">
+              <a class="nav-link" href="./editori.php">Editori</a>
+            </li>';
+            print '
             <li class="nav-item">
               <a class="nav-link" href="./sedi.php">Sedi</a>
             </li>';
-          ?>
-          <?php
-          if ($_SESSION['area'] === 'admin') print '
+            print '
             <li class="nav-item">
               <a class="nav-link" href="./cittas.php">Città</a>
             </li>';
+          }
           ?>
           <li class="nav-item">
             <a class="nav-link" href="./profilo.php">Profilo</a>

@@ -19,8 +19,8 @@ unset($_SESSION['autore']);
 $sql = "UPDATE autore SET nome = $2, cognome = $3, pseudonimo = $4, nascita = $5, morte = $6, biografia = $7 WHERE id = $1";
 
 $db = open_pg_connection();
-$res = pg_prepare($db, "edit-city-$id", $sql);
-$res = pg_execute($db, "edit-city-$id", array($id, value_or_null($nome), value_or_null($cognome), value_or_null($pseudonimo), value_or_null($nascita), value_or_null($morte), value_or_null($biografia)));
+$res = pg_prepare($db, "edit-author-$id", $sql);
+$res = pg_execute($db, "edit-author-$id", array($id, value_or_null($nome), value_or_null($cognome), value_or_null($pseudonimo), value_or_null($nascita), value_or_null($morte), value_or_null($biografia)));
 
 if (!$res) redirect_error('credentials');
 

@@ -6,7 +6,7 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
-function count_total_sites()
+function count_total_publishers()
 {
   $sql = "SELECT COUNT(*) tot FROM libro l";
 
@@ -18,28 +18,25 @@ function count_total_sites()
   return pg_fetch_result($res, 0, 'tot') ?? 0;
 }
 
-function get_sites($pagination)
+function get_publishers($pagination)
 {
   $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
-  $citta = $_GET['città'] ?? null;
 
   $sql = "
-  SELECT s.id, s.indirizzo, c.nome FROM sede s
-  JOIN citta c ON c.id = s.citta
+  SELECT e.id, e.nome, e.fondazione, e.cessazione FROM casa_editrice e
   WHERE
-    (LOWER(s.indirizzo) LIKE LOWER($1) OR LOWER(c.nome) LIKE LOWER($1)) AND
-    ($4::integer IS NULL OR s.citta = $4::integer)
-  ORDER BY c.nome, s.indirizzo
+    LOWER(e.nome) LIKE LOWER($1)
+  ORDER BY e.nome
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "sites-$page-$search";
+  $query_name = "editori-$page-$search";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $citta));
+  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
 
   if (!$res) return;
 
@@ -49,7 +46,7 @@ function get_sites($pagination)
     array_push($data, $row);
 
   return get_gallery($data, function ($row) {
-    return get_site_card($row['id'], $row['indirizzo'], $row['nome']);
+    return get_publisher_card($row['id'], $row['nome'], $row['fondazione'], $row['cessazione']);
   });
 }
 ?>
@@ -69,16 +66,16 @@ function get_sites($pagination)
   <?php include('../components/navbar.php') ?>
 
   <div>
-    <h1>Sedi</h1>
-    <a href="./sede.php">Nuova sede</a>
+    <h1>Case editrici</h1>
+    <a href="./editore.php">Nuova casa editrice</a>
   </div>
 
   <?php
   include('../components/pagination.php');
 
-  get_sites(12);
+  get_publishers(12);
 
-  $tot = count_total_sites();
+  $tot = count_total_publishers();
   get_pagination($tot, 12, $_GET['page'] ?? 1, $_GET['search'] ?? null);
   ?>
 </body>
