@@ -64,8 +64,8 @@ function get_lend()
         print '<p><b>Stato: </b>' . get_land_label(get_v('scadenza'), get_v('riconsegna')) . '</p>';
         print '<p><b>Copia: </b><a href="./copia.php?id=' . get_v('copia') . '">' . get_v('copia') . '</a></p>';
         print '<p><b>Lettore: </b><a href="./lettore.php?cf=' . get_v('lettore') . '">' . get_v('lettore') . '</a></p>';
-        print '<p><b>Da: </b>' . get_v('inizio') . '</p>';
-        if (get_v('riconsegna')) print '<p><b>A: </b>' . get_v('riconsegna') . '</p>';
+        print '<p><b>Inizio: </b>' . get_v('inizio') . '</p>';
+        if (get_v('riconsegna')) print '<p><b>Fine: </b>' . get_v('riconsegna') . '</p>';
         else print '<p><b>Scadenza: </b>' . get_v('scadenza') . '</p>';
         print '</div>';
 
