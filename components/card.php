@@ -13,7 +13,7 @@ function get_simple_card($header, $titolo)
     </div>";
 }
 
-function get_card($titolo, $sottotitolo, $contenuto, $link, $linkLabel, $titleClass = '', $subtitleClass = '', $textClass = '', $linkClass = '')
+function get_card($titolo, $sottotitolo, $contenuto, $link, $linkLabel = 'dettagli', $titleClass = '', $subtitleClass = '', $textClass = '', $linkClass = '')
 {
   return "
     <div class=\"card\">
@@ -34,4 +34,15 @@ function get_book_card($titolo, $isbn, $trama)
 function get_user_card($cf, $nome, $cognome)
 {
   return get_card(get_user_name($nome, $cognome), $cf, null, "lettore.php?cf=$cf", 'dettagli', 'text-capitalize', 'text-uppercase');
+}
+
+function get_site_card($id, $via, $citta)
+{
+  return get_card($via, $citta, null, "sede.php?id=$id", 'dettagli', 'text-capitalize', 'text-capitalize');
+}
+
+
+function get_city_card($id, $nome)
+{
+  return get_card($nome, null, null, "citta.php?id=$id", 'dettagli', 'text-capitalize');
 }

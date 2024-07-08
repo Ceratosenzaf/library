@@ -11,8 +11,8 @@ $cognome = $_POST['cognome'] ?? '';
 $premium = isset($_POST['premium'])? 'TRUE': 'FALSE';
 $bloccato = isset($_POST['bloccato'])? 'TRUE': 'FALSE';
 
-if ($cf == '' || $nome == '' || $cognome == '')
-  redirect_error('input');
+if ($cf == '' || $nome == '' || $cognome == '') redirect_error('input');
+unset($_SESSION['cf']);
 
 $sql = "UPDATE lettore SET nome = $2, cognome = $3, premium = $4, bloccato = $5 WHERE cf = $1";
 
@@ -22,4 +22,4 @@ $res = pg_execute($db, "edit-user-$cf", array($cf, $nome, $cognome, $premium, $b
 
 if (!$res) redirect_error('credentials');
 
-redirect('./');
+redirect('./lettori.php');

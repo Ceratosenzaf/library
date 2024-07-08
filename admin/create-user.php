@@ -29,4 +29,4 @@ $res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, md5($password)));
 
 if (!$res) redirect_error('credentials');
 
-redirect('./');
+redirect('./lettori.php');

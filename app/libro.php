@@ -139,7 +139,7 @@ function get_sedi_e_copie()
     print '<form action="prenota.php" method="POST" class="mx-auto" style="width:fit-content;">';
     print '<input class="form-control text-center" name="isbn" title="isbn" placeholder="isbn" type="text" disabled readonly value="' . $_SESSION['isbn'] . '">';
     print '<select name="sede" title="sede" class="form-control text-center d-block my-2" style="max-width:max-content;">';
-    print '<option value="null">Sede qualsiasi</option>';
+    print '<option value="">Sede qualsiasi</option>';
     foreach ($sedi as $sede) {
       $copie = $sede['copie'];
       $disabled = $copie == 0 ? 'disabled' : '';

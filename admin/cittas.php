@@ -6,35 +6,33 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
-function count_total_users()
+function count_total_cities()
 {
-  $sql = "SELECT COUNT(*) tot FROM lettore l";
+  $sql = "SELECT COUNT(*) tot FROM libro l";
 
   $db = open_pg_connection();
-  $res = pg_prepare($db, 'users-count', $sql);
-  $res = pg_execute($db, 'users-count', array());
+  $res = pg_prepare($db, 'books-count', $sql);
+  $res = pg_execute($db, 'books-count', array());
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
 }
 
-function get_users($pagination)
+function get_cities($pagination)
 {
   $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
-  SELECT l.cf, l.nome, l.cognome FROM lettore l
+  SELECT c.id, c.nome FROM citta c
   WHERE
-    LOWER(l.cf) LIKE LOWER($1) OR
-    LOWER(l.nome) LIKE LOWER($1) OR
-    LOWER(l.cognome) LIKE LOWER($1)
-  ORDER BY l.nome, l.cognome, l.cf
+    LOWER(c.nome) LIKE LOWER($1)
+  ORDER BY c.nome
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "utenti-$page-$search";
+  $query_name = "cities-$page-$search";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
@@ -47,8 +45,8 @@ function get_users($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function ($row) {
-    return get_user_card($row['cf'], $row['nome'], $row['cognome']);
+  return get_gallery($data, function($row) {
+    return get_city_card($row['id'], $row['nome']);
   });
 }
 ?>
@@ -68,16 +66,16 @@ function get_users($pagination)
   <?php include('../components/navbar.php') ?>
 
   <div>
-    <h1>Lettori</h1>
-    <a href="./lettore.php">Nuovo lettore</a>
+    <h1>Città</h1>
+    <a href="./citta.php">Nuova città</a>
   </div>
 
   <?php
   include('../components/pagination.php');
 
-  get_users(12);
+  get_cities(12);
 
-  $tot = count_total_users();
+  $tot = count_total_cities();
   get_pagination($tot, 12, $_GET['page'] ?? 1, $_GET['search'] ?? null);
   ?>
 </body>
