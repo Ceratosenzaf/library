@@ -61,13 +61,10 @@ function get_city()
 
         print '<input type="text" id="nome" name="nome" class="form-control text-center" placeholder="il suo nome" required value="' . get_v('nome') . '" />';
         print '<button type="submit" class="btn btn-primary">' . ($_SESSION['città'] ? 'Modifica' : 'Crea') . '</button>';
-        print '</form>';
-
-        if ($_SESSION['città']) print '<a href="./sedi.php?search=' . get_v('nome') . '">Sedi</a>';
         ?>
       </form>
 
-      <?php  ?>
+      <?php if ($_SESSION['città']) print '<a href="./sedi.php?città=' . $_SESSION['città'] . '">Sedi</a>'; ?>
     </div>
   </div>
 </body>

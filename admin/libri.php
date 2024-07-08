@@ -22,12 +22,14 @@ function get_books($pagination)
 {
   $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
+  $sede = $_GET['sede'] ?? null;
 
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
+  JOIN copia c ON c.libro = l.isbn
   WHERE
-    LOWER(l.titolo) LIKE LOWER($1) OR
-    l.isbn LIKE $1
+    (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
+    ($4::integer IS NULL OR c.sede = $4::integer)
   ORDER BY l.titolo, l.isbn
   LIMIT $2
   OFFSET $3
@@ -37,7 +39,7 @@ function get_books($pagination)
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $sede));
 
   if (!$res) return;
 

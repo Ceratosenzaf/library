@@ -22,13 +22,14 @@ function get_sites($pagination)
 {
   $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
+  $citta = $_GET['città'] ?? null;
 
   $sql = "
   SELECT s.id, s.indirizzo, c.nome FROM sede s
   JOIN citta c ON c.id = s.citta
   WHERE
-    LOWER(s.indirizzo) LIKE LOWER($1) OR
-    LOWER(c.nome) LIKE LOWER($1)
+    (LOWER(s.indirizzo) LIKE LOWER($1) OR LOWER(c.nome) LIKE LOWER($1)) AND
+    ($4::integer IS NULL OR s.citta = $4::integer)
   ORDER BY c.nome, s.indirizzo
   LIMIT $2
   OFFSET $3
@@ -38,7 +39,7 @@ function get_sites($pagination)
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $citta));
 
   if (!$res) return;
 
@@ -47,7 +48,7 @@ function get_sites($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function($row) {
+  return get_gallery($data, function ($row) {
     return get_site_card($row['id'], $row['indirizzo'], $row['nome']);
   });
 }

@@ -92,13 +92,10 @@ function get_all_cities()
         }
         print '</select>';
         print '<button type="submit" class="btn btn-primary">' . ($_SESSION['sede'] ? 'Modifica' : 'Crea') . '</button>';
-        print '</form>';
-
-        if ($_SESSION['sede']) print '<a href="./copie.php?search=' . get_v('indirizzo') . '">Catalogo</a>';
         ?>
       </form>
 
-      <?php  ?>
+      <?php if ($_SESSION['sede']) print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo</a>'; ?>
     </div>
   </div>
 </body>
