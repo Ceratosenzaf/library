@@ -96,6 +96,7 @@ function get_all_cities()
       </form>
 
       <?php if ($_SESSION['sede']) print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo</a>'; ?>
+      <?php if ($_SESSION['libro']) print '<a href="./copie.php?sede=' . $_SESSION['sede'] . '">Copie</a>'; ?>
     </div>
   </div>
 </body>

@@ -74,13 +74,13 @@ function get_all_cities()
       </h1>
       <form method="post" action="<?php print $_SESSION['editore'] ? 'edit-publisher.php' : 'create-publisher.php'; ?>" class="d-flex flex-column gap-2 mb-4">
         <?php
-        $sede = get_publisher();
+        $publisher = get_publisher();
         $cities = get_all_cities();
         function get_v($k)
         {
-          global $sede;
-          if (!$sede) return;
-          return $sede[$k];
+          global $publisher;
+          if (!$publisher) return;
+          return $publisher[$k];
         }
 
         print '<input type="text" id="nome" name="nome" class="form-control text-center" placeholder="il suo nome" required value="' . get_v('nome') . '" />';

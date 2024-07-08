@@ -27,14 +27,15 @@ function get_books($pagination)
   $editore = $_GET['editore'] ?? null;
 
   $sql = "
-  SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
-  JOIN copia c ON c.libro = l.isbn
+  SELECT l.isbn, l.titolo, l.trama, l.editore, COUNT(c.id) tot FROM libro l
+  LEFT JOIN copia c ON c.libro = l.isbn
   JOIN scrittura s ON s.libro = l.isbn
   WHERE
     (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
     ($4::integer IS NULL OR c.sede = $4::integer) AND
     ($5::integer IS NULL OR s.autore = $5::integer) AND
     ($6::integer IS NULL OR l.editore = $6::integer)
+  GROUP BY l.isbn
   ORDER BY l.titolo, l.isbn
   LIMIT $2
   OFFSET $3

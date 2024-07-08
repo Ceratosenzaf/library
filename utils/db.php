@@ -21,3 +21,5 @@ function value_or_null($v)
 {
   return empty($v) ? null: $v;
 }
+
+// TODO: handle transactions
