@@ -135,7 +135,7 @@ function get_sedi_e_copie()
   if (!$copieTotali) print '<h3>Al momento non disponibile</h3>';
   else {
     print '<h3>Prendilo in prestito!</h3>';
-    print '<form action="prenota.php" method="POST" class="mx-auto" style="width:fit-content;">';
+    print '<form action="prenota.php" method="POST" class="mx-auto max-w-content">';
     print '<input class="form-control text-center" name="isbn" title="isbn" placeholder="isbn" type="text" disabled readonly value="' . $_SESSION['isbn'] . '">';
     print '<select name="sede" title="sede" class="form-control text-center d-block my-2 max-w-content">';
     print '<option value="">Sede qualsiasi</option>';

@@ -85,7 +85,7 @@ function get_user()
       </form>
 
       <?php if ($_SESSION['cf']) print '<a href="./reset-user-delays.php">Azzera ritardi</a>'; ?>
-      <?php if ($_SESSION['cf']) print '<a href="./prestiti.php?cf=' . $_SESSION['cf'] . '">Prestiti</a>'; ?>
+      <?php if ($_SESSION['cf']) print '<a href="./prestiti.php?lettore=' . $_SESSION['cf'] . '">Prestiti</a>'; ?>
     </div>
   </div>
 </body>

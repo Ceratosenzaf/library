@@ -1,7 +1,7 @@
 <?php
 function get_link($page, $search)
 {
-  if ($search) return "./catalogo.php?page=$page&search=$search";
+  if ($search) return "./catalogo.php?page=$page&search=$search"; // TODO: get link automatically
   return "./catalogo.php?page=$page";
 }
 

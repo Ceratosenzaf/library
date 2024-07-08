@@ -64,3 +64,9 @@ function get_copy_card($id, $titolo, $indirizzo, $citta)
 {
   return get_card($titolo, get_site_name($citta, $indirizzo), null, "copia.php?id=$id");
 }
+
+function get_lend_card($id, $inizio, $scadenza, $riconsegna)
+{
+  $e = $riconsegna ?? 'ora';
+  return get_card("$inizio - $e", get_land_label($scadenza, $riconsegna), null, "prestito.php?id=$id");
+}
