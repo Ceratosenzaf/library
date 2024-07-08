@@ -36,6 +36,10 @@
             </li>';
             print '
             <li class="nav-item">
+              <a class="nav-link" href="./copie.php">Copie</a>
+            </li>';
+            print '
+            <li class="nav-item">
               <a class="nav-link" href="./autori.php">Autori</a>
             </li>';
             print '

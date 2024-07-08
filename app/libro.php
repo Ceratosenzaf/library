@@ -109,7 +109,6 @@ function get_sedi_e_copie()
   $sedi = get_sedi_e_copie();
 
   include('../components/card.php');
-  include('../utils/nome.php');
 
   print '<div>';
   print '<h1>' . $libro['titolo'] . '</h1>';
@@ -143,7 +142,7 @@ function get_sedi_e_copie()
     foreach ($sedi as $sede) {
       $copie = $sede['copie'];
       $disabled = $copie == 0 ? 'disabled' : '';
-      print "<option $disabled value=\"" . $sede['id'] . '">' . $sede['nome'] . ' - ' . $sede['indirizzo'] . " ($copie copie disponibili)</option>";
+      print "<option $disabled value=\"" . $sede['id'] . '">' . get_site_name($sede['nome'], $sede['indirizzo']). " ($copie copie disponibili)</option>";
     }
     print '</select>';
     print '<button class="btn btn-primary" type="submit">Prenota</button>';

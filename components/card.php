@@ -59,3 +59,8 @@ function get_publisher_card($id, $nome, $fondazione, $cessazione)
   $d = $cessazione ?? 'attivo';
   return get_card($nome, "$b - $d", null, "editore.php?id=$id");
 }
+
+function get_copy_card($id, $titolo, $indirizzo, $citta)
+{
+  return get_card($titolo, get_site_name($citta, $indirizzo), null, "copia.php?id=$id");
+}

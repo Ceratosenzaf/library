@@ -12,3 +12,9 @@ function get_user_name($nome, $cognome)
   if (isset($nome) && isset($cognome)) return "$nome $cognome";
   return $nome ?? $cognome ?? 'ignoto';
 }
+
+
+function get_site_name($citta, $indirizzo)
+{
+  return "$citta - $indirizzo";
+}

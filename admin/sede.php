@@ -84,7 +84,7 @@ function get_all_cities()
         }
 
         print '<input type="text" id="indirizzo" name="indirizzo" class="form-control text-center" placeholder="il suo indirizzo" required value="' . get_v('indirizzo') . '" />';
-        print '<select name="città" title="città" class="form-control text-center d-block my-2" required>';
+        print '<select name="città" title="città" class="form-control text-center d-block" required>';
         print '<option value="" disabled '.($_SESSION['sede'] ? '' : 'selected').'>città</option>';
         foreach ($cities as $city) {
           $selected = get_v('citta') == $city['id'] ? 'selected': '';
