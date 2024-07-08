@@ -20,6 +20,8 @@
     print("<h1>Credenziali errate</h1>");
   else if ($error == 'input')
     print("<h1>L'input non rispetta il formato richiesto</h1>");
+  else if ($error === 'blocked')
+    print("<h1>Sei stato bloccato</h1>");
   else if ($error === 'confirmPassword')
     print("<h1>Password e conferma password non coincidono</h1>");
   else

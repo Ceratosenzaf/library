@@ -47,12 +47,10 @@ function get_lend()
     <?php include('../components/navbar.php') ?>
 
     <div class="center d-flex flex-column gap-4">
-      <h1 style="margin-top: -112px;">Dettagli prestito</h1>
-
-      <div class="d-flex flex-column mx-auto max-w-content mb-4" style="text-align: left;">
-        <?php
+      
+      <?php
         include('../utils/nome.php');
-
+        
         $prestito = get_lend();
         function get_v($k)
         {
@@ -60,7 +58,9 @@ function get_lend()
           if (!$prestito) return;
           return $prestito[$k];
         }
-
+        
+        print '<h1 style="margin-top: '.(get_v('riconsegna') ? '-56px': '-112px').';">Dettagli prestito</h1>';
+        print '<div class="d-flex flex-column mx-auto max-w-content mb-4" style="text-align: left;">';
         print '<p><b>Stato: </b>' . get_land_label(get_v('scadenza'), get_v('riconsegna')) . '</p>';
         print '<p><b>Copia: </b><a href="./copia.php?id=' . get_v('copia') . '">' . get_v('copia') . '</a></p>';
         print '<p><b>Lettore: </b><a href="./lettore.php?cf=' . get_v('lettore') . '">' . get_v('lettore') . '</a></p>';
@@ -75,15 +75,15 @@ function get_lend()
           print '<h1>Gestisci prestito</h1>';
 
           // proroga
-          print '<form method="post" action="proroga.php" class="d-flex gap-2 row">';
+          print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0">';
           print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua nuova scadenza" required value="' . get_v('scadenza') . '" />';
-          print '<button type="submit" class="col col-3 btn btn-primary">Proroga</button>';
+          print '<button type="submit" class="col col-md-3 btn btn-primary">Proroga</button>';
           print '</form>';
 
           // riconsegna
-          print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row">';
+          print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0">';
           print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required value="' . $now->format('Y-m-d') . '" />';
-          print '<button type="submit" class="col col-3 btn btn-primary">Riconsegna</button>';
+          print '<button type="submit" class="col col-md-3 btn btn-primary">Riconsegna</button>';
           print '</form>';
         }
         ?>

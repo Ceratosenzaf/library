@@ -25,6 +25,7 @@ if (!$res) redirect_error('credentials', false);
 $row = pg_fetch_assoc($res);
 
 if (!$row) redirect_error('credentials', false);
+if ($area == 'app' && $row['bloccato'] == 't') redirect_error('blocked', false);
 
 if ($row['password'] != $hashedPassword) redirect_error('credentials', false);
 
