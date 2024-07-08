@@ -47,3 +47,7 @@ nav.navbar > div {
     margin: 0 16px;
   }
 }
+
+.max-w-content {
+  max-width: max-content;
+}

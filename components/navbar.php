@@ -18,9 +18,15 @@
           <li class="nav-item">
             <?php
             if ($_SESSION['area'] === 'app') print '<a class="nav-link" href="./catalogo.php">Catalogo</a>';
-            else print '<a class="nav-link" href="./lettori.php">Lettori</a>';
+            else print '<a class="nav-link" href="./prestiti.php">Prestiti</a>';
             ?>
           </li>
+          <?php
+          if ($_SESSION['area'] === 'admin') print '
+            <li class="nav-item">
+              <a class="nav-link" href="./lettori.php">Lettori</a>
+            </li>';
+          ?>
           <?php
           if ($_SESSION['area'] === 'admin') print '
             <li class="nav-item">
@@ -30,7 +36,7 @@
           <?php
           if ($_SESSION['area'] === 'admin') print '
             <li class="nav-item">
-              <a class="nav-link" href="./prestiti.php">Prestiti</a>
+              <a class="nav-link" href="./autori.php">Autori</a>
             </li>';
           ?>
           <?php

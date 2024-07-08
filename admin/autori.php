@@ -6,45 +6,39 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
-function count_total_books()
+function count_total_authors()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l";
+  $sql = "SELECT COUNT(*) tot FROM autore a";
 
   $db = open_pg_connection();
-  $res = pg_prepare($db, 'books-count', $sql);
-  $res = pg_execute($db, 'books-count', array());
+  $res = pg_prepare($db, 'authors-count', $sql);
+  $res = pg_execute($db, 'authors-count', array());
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
 }
 
-function get_books($pagination)
+function get_authors($pagination)
 {
   $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
-  $sede = $_GET['sede'] ?? null;
-  $autore = $_GET['autore'] ?? null;
-  $editore = $_GET['editore'] ?? null;
 
   $sql = "
-  SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
-  JOIN copia c ON c.libro = l.isbn
-  JOIN scrittura s ON s.libro = l.isbn
+  SELECT * FROM autore a
   WHERE
-    (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
-    ($4::integer IS NULL OR c.sede = $4::integer) AND
-    ($5::integer IS NULL OR s.autore = $5::integer) AND
-    ($6::integer IS NULL OR l.editore = $6::integer)
-  ORDER BY l.titolo, l.isbn
+    LOWER(a.nome) LIKE LOWER($1) OR
+    LOWER(a.cognome) LIKE LOWER($1) OR
+    LOWER(a.pseudonimo) LIKE LOWER($1)
+  ORDER BY a.pseudonimo, a.nome, a.cognome
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "catalogo-$page-$search";
+  $query_name = "authors-$page-$search";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $sede, $autore, $editore));
+  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
 
   if (!$res) return;
 
@@ -53,8 +47,8 @@ function get_books($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function($row) {
-    return get_book_card($row['titolo'], $row['isbn'], $row['trama']);
+  return get_gallery($data, function ($row) {
+    return get_author_card($row['id'], $row['nome'], $row['cognome'], $row['pseudonimo'], $row['nascita'], $row['morte'], $row['biografia']);
   });
 }
 ?>
@@ -74,16 +68,16 @@ function get_books($pagination)
   <?php include('../components/navbar.php') ?>
 
   <div>
-    <h1>Libri</h1>
-    <a href="./libro.php">Nuovo libro</a>
+    <h1>Autori</h1>
+    <a href="./autore.php">Nuovo autore</a>
   </div>
 
   <?php
   include('../components/pagination.php');
 
-  get_books(12);
+  get_authors(12);
 
-  $tot = count_total_books();
+  $tot = count_total_authors();
   get_pagination($tot, 12, $_GET['page'] ?? 1, $_GET['search'] ?? null);
   ?>
 </body>

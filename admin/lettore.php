@@ -59,12 +59,12 @@ function get_user()
           return $lettore[$k];
         }
 
-        print '<input type="text" id="cf" name="cf" class="form-control text-center" placeholder="il suo cf" required value="' . get_v('cf') . '"' . ($_SESSION['cf'] ? 'disabled' : '') . ' />';
+        print '<input type="text" id="cf" name="cf" class="form-control text-center text-uppercase" placeholder="il suo cf" required value="' . get_v('cf') . '"' . ($_SESSION['cf'] ? 'disabled' : '') . ' />';
         print '<input type="text" id="nome" name="nome" class="form-control text-center" placeholder="il suo nome" required value="' . get_v('nome') . '" />';
         print '<input type="text" id="cognome" name="cognome" class="form-control text-center" placeholder="il suo cognome" required value="' . get_v('cognome') . '" />';
         if (!$_SESSION['cf']) print '<input type="password" id="password" name="password" class="form-control text-center" placeholder="la sua password" required />';
         print '
-        <div class="form-check">
+        <div class="form-check text-left max-w-content mx-auto">
           <input class="form-check-input" type="checkbox" value="true" name="premium" id="premium" ' . (get_v('premium') == 't' ? 'checked' : '') . ' />
           <label class="form-check-label" for="premium">
             Premium
@@ -72,7 +72,7 @@ function get_user()
         </div>
         ';
         print '
-        <div class="form-check">
+        <div class="form-check text-left max-w-content mx-auto">
           <input class="form-check-input" type="checkbox" value="true" name="bloccato" id="bloccato" ' . (get_v('bloccato') == 't' ? 'checked' : '') . ' />
           <label class="form-check-label" for="bloccato">
             Bloccato

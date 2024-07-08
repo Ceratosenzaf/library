@@ -41,8 +41,14 @@ function get_site_card($id, $via, $citta)
   return get_card($via, $citta, null, "sede.php?id=$id", 'dettagli', 'text-capitalize', 'text-capitalize');
 }
 
-
 function get_city_card($id, $nome)
 {
   return get_card($nome, null, null, "citta.php?id=$id", 'dettagli', 'text-capitalize');
+}
+
+function get_author_card($id, $nome, $cognome, $pseudonimo, $nascita, $morte, $biografia)
+{
+  $b = $nascita ?? 'sconosciuto';
+  $d = $morte ?? 'vivo';
+  return get_card(get_writer_name($pseudonimo, $nome, $cognome), "$b - $d", $biografia, "autore.php?id=$id", 'dettagli', 'text-capitalize');
 }

@@ -7,7 +7,7 @@ session_start();
 
 $nome = $_POST['nome'] ?? '';
 
-if ($nome == '' ) redirect_error('input');
+if ($nome == '') redirect_error('input');
 
 $sql = "INSERT INTO citta (nome) VALUES ($1)";
 
