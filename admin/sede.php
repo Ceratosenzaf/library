@@ -29,6 +29,27 @@ function get_site()
   return pg_fetch_assoc($res);
 }
 
+function get_site_stats()
+{
+  $id = $_SESSION['sede'];
+  if (!$id) return;
+
+  $sql = "
+  SELECT * FROM statistiche_sede s
+  WHERE s.id = $1
+  LIMIT 1
+  ";
+
+  $query_name = "site-stats-$id";
+
+  $db = open_pg_connection();
+  $res = pg_prepare($db, $query_name, $sql);
+  $res = pg_execute($db, $query_name, array($id));
+
+  if (!$res) return;
+  return pg_fetch_assoc($res);
+}
+
 function get_all_cities()
 {
   $sql = "
@@ -85,18 +106,28 @@ function get_all_cities()
 
         print '<input type="text" id="indirizzo" name="indirizzo" class="form-control text-center" placeholder="il suo indirizzo" required value="' . get_v('indirizzo') . '" />';
         print '<select name="città" title="città" class="form-control text-center d-block" required>';
-        print '<option value="" disabled '.($_SESSION['sede'] ? '' : 'selected').'>città</option>';
+        print '<option value="" disabled ' . ($_SESSION['sede'] ? '' : 'selected') . '>città</option>';
         foreach ($cities as $city) {
-          $selected = get_v('citta') == $city['id'] ? 'selected': '';
-          print "<option $selected value=\"" . $city['id'] . '">' . $city['nome']. '</option>';
+          $selected = get_v('citta') == $city['id'] ? 'selected' : '';
+          print "<option $selected value=\"" . $city['id'] . '">' . $city['nome'] . '</option>';
         }
         print '</select>';
         print '<button type="submit" class="btn btn-primary">' . ($_SESSION['sede'] ? 'Modifica' : 'Crea') . '</button>';
         ?>
       </form>
 
-      <?php if ($_SESSION['sede']) print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo</a>'; ?>
-      <?php if ($_SESSION['libro']) print '<a href="./copie.php?sede=' . $_SESSION['sede'] . '">Copie</a>'; ?>
+      <div class="d-flex flex-column gap-1">
+
+        <?php
+      if (!$_SESSION['sede']) return;
+      
+      $stats = get_site_stats();
+      
+      print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo (' . ($stats['libri'] ?? 0) . ' libri)</a>';
+      print '<a href="./copie.php?sede=' . $_SESSION['sede'] . '">Copie (' . ($stats['copie'] ?? 0) . ' totali)</a>';
+      print '<a href="./prestiti.php?sede=' . $_SESSION['sede'] . '">Prestiti (' . ($stats['prestiti_attivi'] ?? 0) . ' in corso)</a>';
+      ?>
+      </div>
     </div>
   </div>
 </body>

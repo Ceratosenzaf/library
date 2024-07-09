@@ -23,12 +23,15 @@ function get_lends($pagination)
   $page = ($_GET['page'] ?? 1) - 1;
   $copia = $_GET['copia'] ?? null;
   $cf = $_GET['lettore'] ?? null;
+  $sede = $_GET['sede'] ?? null;
 
   $sql = "
   SELECT p.id, p.inizio, p.scadenza, p.riconsegna FROM prestito p
+  JOIN copia c ON c.id = p.copia
   WHERE 
     ($3::varchar IS NULL OR p.lettore = $3::varchar) AND
-    ($4::integer IS NULL OR p.copia = $4::integer)
+    ($4::integer IS NULL OR p.copia = $4::integer) AND
+    ($5::integer IS NULL OR c.sede = $5::integer)
   ORDER BY p.inizio DESC, p.riconsegna DESC
   LIMIT $1
   OFFSET $2
@@ -38,7 +41,7 @@ function get_lends($pagination)
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page, $cf, $copia));
+  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page, $cf, $copia, $sede));
 
   if (!$res) return;
 
