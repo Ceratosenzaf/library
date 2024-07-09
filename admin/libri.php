@@ -30,7 +30,7 @@ function count_total_books()
   [$join, $where, $sede, $autore, $editore] = get_where();
 
   $sql = "
-  SELECT COUNT(*) tot FROM libro l
+  SELECT COUNT(distinct l) tot FROM libro l
   $join
   $where
   ";

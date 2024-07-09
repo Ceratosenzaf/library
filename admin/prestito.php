@@ -47,49 +47,51 @@ function get_lend()
     <?php include('../components/navbar.php') ?>
 
     <div class="center">
-      
+
       <?php
-        include('../utils/nome.php');
-        
-        $prestito = get_lend();
-        function get_v($k)
-        {
-          global $prestito;
-          if (!$prestito) return;
-          return $prestito[$k];
-        }
-        
-        print '<h1 style="margin-top: '.(get_v('riconsegna') ? '-56px': '-112px').';">Dettagli prestito</h1>';
-        print '<div class="d-flex flex-column mx-auto max-w-content mb-4" style="text-align: left;">';
-        print '<h5 class="text-center mb-4"><span class="badge bg-primary">'.get_land_label(get_v('scadenza'), get_v('riconsegna')).'</span></h5>';
-        print '<p><b>Copia: </b><a href="./copia.php?id=' . get_v('copia') . '">' . get_v('copia') . '</a></p>';
-        print '<p><b>Lettore: </b><a href="./lettore.php?cf=' . get_v('lettore') . '">' . get_v('lettore') . '</a></p>';
-        print '<p><b>Inizio: </b>' . get_v('inizio') . '</p>';
-        if (get_v('riconsegna')) print '<p><b>Fine: </b>' . get_v('riconsegna') . '</p>';
-        else print '<p><b>Scadenza: </b>' . get_v('scadenza') . '</p>';
-        print '</div>';
+      include('../utils/nome.php');
 
-        if (!get_v('riconsegna')) {
-          $now = new DateTime();
+      $prestito = get_lend();
+      function get_v($k)
+      {
+        global $prestito;
+        if (!$prestito) return;
+        return $prestito[$k];
+      }
 
-          print '<h1>Gestisci prestito</h1>';
+      print '<h1 style="margin-top: ' . (get_v('riconsegna') ? '-56px' : '-112px') . ';">Dettagli prestito</h1>';
+      print '<div class="d-flex flex-column mx-auto max-w-content mb-4" style="text-align: left;">';
+      print '<h5 class="text-center mb-4"><span class="badge bg-primary">' . get_land_label(get_v('scadenza'), get_v('riconsegna')) . '</span></h5>';
+      print '<p><b>Copia: </b><a href="./copia.php?id=' . get_v('copia') . '">' . get_v('copia') . '</a></p>';
+      print '<p><b>Lettore: </b><a href="./lettore.php?cf=' . get_v('lettore') . '">' . get_v('lettore') . '</a></p>';
+      print '<p><b>Inizio: </b>' . get_v('inizio') . '</p>';
+      if (get_v('riconsegna')) print '<p><b>Fine: </b>' . get_v('riconsegna') . '</p>';
+      else print '<p><b>Scadenza: </b>' . get_v('scadenza') . '</p>';
+      print '</div>';
 
-          // proroga
-          print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 my-2">';
+      if (!get_v('riconsegna')) {
+        $now = new DateTime();
+
+        print '<h1>Gestisci prestito</h1>';
+
+        // proroga
+        if ($now->format('Y-m-d') <= get_v('scadenza')) {
+          print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 mt-2">';
           print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua nuova scadenza" required value="' . get_v('scadenza') . '" />';
           print '<button type="submit" class="col col-md-3 btn btn-primary">Proroga</button>';
           print '</form>';
-
-          // riconsegna
-          print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0">';
-          print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required value="' . $now->format('Y-m-d') . '" />';
-          print '<button type="submit" class="col col-md-3 btn btn-primary">Riconsegna</button>';
-          print '</form>';
         }
-        ?>
 
-      </div>
+        // riconsegna
+        print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 mt-2">';
+        print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required value="' . $now->format('Y-m-d') . '" />';
+        print '<button type="submit" class="col col-md-3 btn btn-primary">Riconsegna</button>';
+        print '</form>';
+      }
+      ?>
+
     </div>
+  </div>
 </body>
 
 </html>

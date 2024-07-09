@@ -27,7 +27,7 @@ function get_pagination($items, $pagination, $page)
 
   print('<nav><ul class="pagination justify-content-center">');
 
-  $disabled = $prev == $min ? 'disabled' : null;
+  $disabled = $page == $prev ? 'disabled' : null;
   print(
     "
     <li class=\"page-item $disabled\">
@@ -45,7 +45,7 @@ function get_pagination($items, $pagination, $page)
     );
   }
 
-  $disabled = $next == $max ? 'disabled' : null;
+  $disabled = $page == $next ? 'disabled' : null;
   print(
     "
       <li class=\"page-item $disabled\">

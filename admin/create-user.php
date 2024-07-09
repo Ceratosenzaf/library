@@ -23,7 +23,7 @@ if (!$checkCF->validaCodiceFiscale($cf)) redirect_error('input');
 
 // TODO: valida nome e cognome col cf
 
-$sql = "INSERT INTO lettore (cf, nome, cognome, password, premium, bloccato) VALUES ($1, $2, $3, $4, $5, $6)";
+$sql = "INSERT INTO lettore (cf, nome, cognome, password, premium, bloccato) VALUES (upper($1), $2, $3, $4, $5, $6)";
 
 $db = open_pg_connection();
 $res = pg_prepare($db, 'new-user', $sql);

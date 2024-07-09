@@ -24,17 +24,24 @@ unset($_SESSION['libro']);
 $sql = "UPDATE libro SET titolo = $2, trama = $3, editore = $4, pagine = $5, pubblicazione = $6 WHERE ISBN = $1";
 
 $db = open_pg_connection();
+start_pg_transaction($db);
 $res = pg_prepare($db, "edit-book-$isbn", $sql);
 $res = pg_execute($db, "edit-book-$isbn", array($isbn, $titolo, $trama, $editore, $pagine, value_or_null($pubblicazione)));
 
-if (!$res) redirect_error('input');
+if (!$res) {
+  rollback_pg_transaction($db);
+  redirect_error('input');
+} 
 
 // fetch current data
 $sql = "SELECT s.autore FROM scrittura s WHERE s.libro = $1";
 $res = pg_prepare($db, "book-$isbn-authors", $sql);
 $res = pg_execute($db, "book-$isbn-authors", array($isbn));
 
-if (!$res) redirect_error('input');
+if (!$res){
+  rollback_pg_transaction($db);
+  redirect_error('input');
+} 
 
 $autoriOld = array();
 while ($row = pg_fetch_assoc($res))
@@ -46,7 +53,10 @@ $res = pg_prepare($db, 'old-book-authors', $sql);
 foreach ($autoriOld as $autore) {
   if (!in_array($autore, $autoriNew)) {
     $res = pg_execute($db, 'old-book-authors', array($isbn, $autore));
-    if (!$res) redirect_error('input');
+    if (!$res){
+      rollback_pg_transaction($db);
+      redirect_error('input');
+    } 
   }
 }
 
@@ -56,8 +66,13 @@ $res = pg_prepare($db, 'new-book-authors', $sql);
 foreach ($autoriNew as $autore) {
   if (!in_array($autore, $autoriOld)) {
     $res = pg_execute($db, 'new-book-authors', array($isbn, $autore));
-    if (!$res) redirect_error('input');
+    if (!$res){
+      rollback_pg_transaction($db);
+      redirect_error('input');
+    } 
   }
 }
+
+commit_pg_transaction($db);
 
 redirect('./libri.php');

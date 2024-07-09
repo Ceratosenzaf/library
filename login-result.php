@@ -15,7 +15,7 @@ $area = $_SESSION['area'];
 $table = $area == 'admin' ? 'bibliotecario' : 'lettore';
 $hashedPassword = md5($password);
 
-$sql = "SELECT * FROM $table WHERE cf = $1";
+$sql = "SELECT * FROM $table WHERE cf = upper($1)";
 
 $db = open_pg_connection();
 $res = pg_prepare($db, 'user', $sql);
