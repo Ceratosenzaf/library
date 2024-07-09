@@ -70,21 +70,21 @@ function get_lend()
       print '</div>';
 
       if (!get_v('riconsegna')) {
-        $now = new DateTime();
+        $now = (new DateTime())->format('Y-m-d');
 
         print '<h1>Gestisci prestito</h1>';
 
         // proroga
-        if ($now->format('Y-m-d') <= get_v('scadenza')) {
+        if ($now <= get_v('scadenza')) {
           print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 mt-2">';
-          print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua nuova scadenza" required value="' . get_v('scadenza') . '" />';
+          print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua nuova scadenza" required min="' . get_v('scadenza') . '" value="' . get_v('scadenza') . '" />';
           print '<button type="submit" class="col col-md-3 btn btn-primary">Proroga</button>';
           print '</form>';
         }
 
         // riconsegna
         print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 mt-2">';
-        print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required value="' . $now->format('Y-m-d') . '" />';
+        print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required min="' . get_v('inizio') . '" value="' . $now . '" />';
         print '<button type="submit" class="col col-md-3 btn btn-primary">Riconsegna</button>';
         print '</form>';
       }

@@ -94,6 +94,7 @@ function get_lends($pagination)
   get_lends(12);
 
   $tot = count_total_lends();
+  if(!$tot) print'<a href="./catalogo.php">Effettua ora il tuo primo prestito!</a>';
   get_pagination($tot, 12, $_GET['page'] ?? 1, null);
   ?>
 </body>
