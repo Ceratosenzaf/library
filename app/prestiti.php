@@ -30,7 +30,7 @@ function get_lends($pagination)
   JOIN copia c ON c.id = p.copia
   JOIN libro l ON l.isbn = c.libro
   WHERE lettore = $1
-  ORDER BY p.riconsegna DESC, p.inizio DESC
+  ORDER BY p.riconsegna DESC, p.scadenza ASC
   LIMIT $2
   OFFSET $3
   ";

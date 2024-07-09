@@ -32,7 +32,7 @@ function get_lends($pagination)
     ($3::varchar IS NULL OR p.lettore = $3::varchar) AND
     ($4::integer IS NULL OR p.copia = $4::integer) AND
     ($5::integer IS NULL OR c.sede = $5::integer)
-  ORDER BY p.inizio DESC, p.riconsegna DESC
+  ORDER BY p.riconsegna DESC, p.scadenza ASC
   LIMIT $1
   OFFSET $2
   ";

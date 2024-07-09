@@ -50,6 +50,28 @@ function get_site_stats()
   return pg_fetch_assoc($res);
 }
 
+function get_site_delays()
+{
+  $id = $_SESSION['sede'];
+  if (!$id) return;
+
+  $sql = "
+  SELECT r.id, count(*) tot FROM ritardi_sede r 
+  WHERE r.id = $1
+  GROUP BY r.id
+  LIMIT 1
+  ";
+
+  $query_name = "site-delays-$id";
+
+  $db = open_pg_connection();
+  $res = pg_prepare($db, $query_name, $sql);
+  $res = pg_execute($db, $query_name, array($id));
+
+  if (!$res) return;
+  return pg_fetch_assoc($res);
+}
+
 function get_all_cities()
 {
   $sql = "
@@ -119,14 +141,15 @@ function get_all_cities()
       <div class="d-flex flex-column gap-1">
 
         <?php
-      if (!$_SESSION['sede']) return;
-      
-      $stats = get_site_stats();
-      
-      print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo (' . ($stats['libri'] ?? 0) . ' libri)</a>';
-      print '<a href="./copie.php?sede=' . $_SESSION['sede'] . '">Copie (' . ($stats['copie'] ?? 0) . ' totali)</a>';
-      print '<a href="./prestiti.php?sede=' . $_SESSION['sede'] . '">Prestiti (' . ($stats['prestiti_attivi'] ?? 0) . ' in corso)</a>';
-      ?>
+        if (!$_SESSION['sede']) return;
+
+        $stats = get_site_stats();
+        $delays = get_site_delays();
+
+        print '<a href="./libri.php?sede=' . $_SESSION['sede'] . '">Catalogo (' . ($stats['libri'] ?? 0) . ' libri)</a>';
+        print '<a href="./copie.php?sede=' . $_SESSION['sede'] . '">Copie (' . ($stats['copie'] ?? 0) . ' totali)</a>';
+        print '<a href="./prestiti.php?sede=' . $_SESSION['sede'] . '">Prestiti (' . ($stats['prestiti_attivi'] ?? 0) . ' in corso, ' . ($delays['tot'] ?? 0) . ' in ritardo)</a>';
+        ?>
       </div>
     </div>
   </div>
