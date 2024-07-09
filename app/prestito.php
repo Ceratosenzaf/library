@@ -13,9 +13,11 @@ function get_lend()
   global $id;
 
   $sql = "
-  SELECT p.inizio, p.scadenza, p.riconsegna, c.libro, l.titolo FROM prestito p
-  JOIN copia c ON c.id = p.copia
-  JOIN libro l ON l.isbn = c.libro
+  SELECT p.inizio, p.scadenza, p.riconsegna, k.libro, l.titolo, s.indirizzo, c.nome FROM prestito p
+  JOIN copia k ON k.id = p.copia
+  JOIN libro l ON l.isbn = k.libro
+  JOIN sede s ON s.id = k.sede
+  JOIN citta c ON c.id = s.citta
   WHERE 
     p.id = $1 AND
     p.lettore = $2
@@ -64,6 +66,7 @@ function get_lend()
 
         print '<h5 class="text-center mb-4"><span class="badge bg-primary">'.get_land_label(get_v('scadenza'), get_v('riconsegna')).'</span></h5>';
         print '<p><b>Libro: </b><a href="./libro.php?isbn=' . get_v('libro') . '">' . get_v('titolo') . '</a></p>';
+        print '<p><b>Sede: </b>' . get_site_name(get_v('nome'), get_v('indirizzo')) . '</p>';
         print '<p><b>Inizio: </b>' . get_v('inizio') . '</p>';
         if (get_v('riconsegna')) print '<p><b>Fine: </b>' . get_v('riconsegna') . '</p>';
         else print '<p><b>Scadenza: </b>' . get_v('scadenza') . '</p>';

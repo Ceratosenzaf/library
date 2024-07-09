@@ -14,19 +14,49 @@ function prenota()
   if ($isbn == '' || $cf == '') return;
   unset($_SESSION['isbn']);
 
-
-  $sql = "SELECT id_nuova_sede sede FROM check_and_insert_prestito(cf := $1, isbn := $2, id_sede := $3)";
-
   $db = open_pg_connection();
+  start_pg_transaction($db);
+
+  function rollback_and_return($db) {
+    rollback_pg_transaction($db);
+    return;
+  }
+
+  // insert
+  $sql = "SELECT id_prestito, id_sede FROM check_and_insert_prestito($1, $2, $3)";
   $res = pg_prepare($db, 'new-lend', $sql);
   $res = pg_execute($db, 'new-lend', array($cf, $isbn, value_or_null($sede)));
 
   if (!$res) return;
 
   $row = pg_fetch_assoc($res);
-  if (!$row) return;
+  if (!$row) return rollback_and_return($db);
 
+  $prestito = $row['id_prestito'];
 
+  // fetch new data
+  $sql = "SELECT * FROM prestito WHERE id = $1";
+
+  $res = pg_prepare($db, "select-post", $sql);
+  $res = pg_execute($db, "select-post", array($prestito));
+
+  if (!$res) return rollback_and_return($db);
+
+  $dati_post = pg_fetch_assoc($res);
+
+  if (!$dati_post) return rollback_and_return($db);
+
+  $sql = "
+  INSERT INTO log (tipo, prestito, dati_pre, dati_post)
+  VALUES ('prestito', $1, $2, $3)
+  ";
+
+  $res = pg_prepare($db, "log-prestito", $sql);
+  $res = pg_execute($db, "log-prestito", array($prestito, json_encode(new stdClass()), json_encode($dati_post)));
+  
+  if (!$res) return rollback_and_return($db);
+
+  // notify
   $sql = "
   SELECT s.id, s.indirizzo, c.nome FROM sede s 
   JOIN citta c ON c.id = s.citta 
@@ -35,13 +65,14 @@ function prenota()
   ";
 
   $res = pg_prepare($db, 'new-lend-site', $sql);
-  $res = pg_execute($db, 'new-lend-site', array($row['sede']));
-  if (!$res) return;
+  $res = pg_execute($db, 'new-lend-site', array($row['id_sede']));
+  if (!$res) return rollback_and_return($db);
 
   $row = pg_fetch_assoc($res);
-  if (!$row) return;
+  if (!$row) return rollback_and_return($db);
 
-  return $row;
+  commit_pg_transaction($db);
+  return array($row, $prestito);
 }
 ?>
 
@@ -63,13 +94,14 @@ function prenota()
     <?php
     include('../utils/nome.php');
 
-    $sede = prenota();
+    $data = prenota();
 
-    if (!$sede) print '<h1 style="margin-top: -56px">Errore in fase di prenotazione, ritenta</h1>';
+    if (!$data) print '<h1 style="margin-top: -56px">Errore in fase di prenotazione, ritenta</h1>';
     else {
+      [$sede, $prestito] = $data;
       $nomeSede = get_site_name($sede['nome'], $sede['indirizzo']);
       print "<h1 style=\"margin-top: -56px\">Prenotazione effettuata presso la sede di <br> $nomeSede</h1>";
-      print '<a href="./prestiti.php">Dettagli</a>';
+      print '<a href="./prestito.php?id='.$prestito.'">Dettagli</a>';
     }
     ?>
   </div>
