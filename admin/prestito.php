@@ -75,7 +75,7 @@ function get_lend()
           print '<h1>Gestisci prestito</h1>';
 
           // proroga
-          print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0">';
+          print '<form method="post" action="proroga.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 my-2">';
           print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua nuova scadenza" required value="' . get_v('scadenza') . '" />';
           print '<button type="submit" class="col col-md-3 btn btn-primary">Proroga</button>';
           print '</form>';

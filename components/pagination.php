@@ -1,11 +1,20 @@
 <?php
-function get_link($page, $search)
+function get_link($page)
 {
-  if ($search) return "./catalogo.php?page=$page&search=$search"; // TODO: get link automatically
-  return "./catalogo.php?page=$page";
+  $url = $_SERVER['REQUEST_URI'];
+  $parsed_url = parse_url($url);
+
+
+  parse_str($parsed_url['query'] ?? '', $query_params);
+  $query_params['page'] = $page;
+
+  $new_query_string = http_build_query($query_params);
+  $new_url = $parsed_url['path'] . '?' . $new_query_string;
+  
+  return $new_url;
 }
 
-function get_pagination($items, $pagination, $page, $search)
+function get_pagination($items, $pagination, $page)
 {
   if (!$items) return;
 
@@ -22,7 +31,7 @@ function get_pagination($items, $pagination, $page, $search)
   print(
     "
     <li class=\"page-item $disabled\">
-      <a class=\"page-link\" href=" . get_link($prev, $search) . ">
+      <a class=\"page-link\" href=" . get_link($prev) . ">
         <span>&laquo;</span>
       </a>
     </li>
@@ -32,7 +41,7 @@ function get_pagination($items, $pagination, $page, $search)
   for ($i = 1; $i <= $totPages; $i++) {
     $active = $page == $i ? 'active' : null;
     print(
-      "<li class=\"page-item $active\"><a class=\"page-link\" href=" . get_link($i, $search) . ">$i</a></li>"
+      "<li class=\"page-item $active\"><a class=\"page-link\" href=" . get_link($i) . ">$i</a></li>"
     );
   }
 
@@ -40,7 +49,7 @@ function get_pagination($items, $pagination, $page, $search)
   print(
     "
       <li class=\"page-item $disabled\">
-        <a class=\"page-link\" href=" . get_link($next, $search) . ">
+        <a class=\"page-link\" href=" . get_link($next) . ">
           <span>&raquo;</span>
         </a>
       </li>

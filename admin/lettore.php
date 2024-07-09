@@ -59,7 +59,7 @@ function get_user()
           return $lettore[$k];
         }
 
-        print '<input type="text" id="cf" name="cf" class="form-control text-center text-uppercase" placeholder="il suo cf" required value="' . get_v('cf') . '"' . ($_SESSION['cf'] ? 'disabled' : '') . ' />';
+        print '<input type="text" id="cf" name="cf" class="form-control text-center" placeholder="il suo cf" required value="' . get_v('cf') . '"' . ($_SESSION['cf'] ? 'disabled' : '') . ' />';
         print '<input type="text" id="nome" name="nome" class="form-control text-center" placeholder="il suo nome" required value="' . get_v('nome') . '" />';
         print '<input type="text" id="cognome" name="cognome" class="form-control text-center" placeholder="il suo cognome" required value="' . get_v('cognome') . '" />';
         if (!$_SESSION['cf']) print '<input type="password" id="password" name="password" class="form-control text-center" placeholder="la sua password" required />';
@@ -84,8 +84,13 @@ function get_user()
         ?>
       </form>
 
-      <?php if ($_SESSION['cf']) print '<a href="./reset-user-delays.php">Azzera ritardi</a>'; ?>
-      <?php if ($_SESSION['cf']) print '<a href="./prestiti.php?lettore=' . $_SESSION['cf'] . '">Prestiti</a>'; ?>
+      <div class="d-flex flex-column gap-1">
+        <?php
+        if (!$_SESSION['cf']) return;
+        print '<a href="./reset-user-delays.php">Azzera ritardi</a>';
+        print '<a href="./prestiti.php?lettore=' . $_SESSION['cf'] . '">Prestiti</a>';
+        ?>
+      </div>
     </div>
   </div>
 </body>
