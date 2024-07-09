@@ -20,23 +20,20 @@ function count_total_cities()
 
 function get_cities($pagination)
 {
-  $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT c.id, c.nome FROM citta c
-  WHERE
-    LOWER(c.nome) LIKE LOWER($1)
   ORDER BY c.nome
-  LIMIT $2
-  OFFSET $3
+  LIMIT $1
+  OFFSET $2
   ";
 
-  $query_name = "cities-$page-$search";
+  $query_name = "cities-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page));
 
   if (!$res) return;
 

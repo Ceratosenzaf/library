@@ -29,6 +29,6 @@ $db = open_pg_connection();
 $res = pg_prepare($db, 'new-user', $sql);
 $res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, md5($password), $premium, $bloccato));
 
-if (!$res) redirect_error('credentials');
+if (!$res) redirect_error('input');
 
 redirect('./lettori.php');

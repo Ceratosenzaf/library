@@ -6,16 +6,32 @@ check_area('app');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where()
+{
+  $cf = $_SESSION['user'];
+
+  $join = "
+  JOIN copia c ON c.id = p.copia
+  JOIN libro l ON l.isbn = c.libro
+  ";
+  $where = "WHERE p.lettore = $1";
+
+  return array($join, $where, $cf);
+}
+
 function count_total_lends()
 {
+  [$join, $where, $cf] = get_where();
+
   $sql = "
   SELECT COUNT(*) tot FROM prestito p
-  WHERE lettore = $1
+  $join
+  $where
   ";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'lends-count', $sql);
-  $res = pg_execute($db, 'lends-count', array($_SESSION['user']));
+  $res = pg_execute($db, 'lends-count', array($cf));
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
@@ -23,23 +39,23 @@ function count_total_lends()
 
 function get_lends($pagination)
 {
+  [$join, $where, $cf] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT p.id, p.scadenza, p.riconsegna, l.titolo FROM prestito p
-  JOIN copia c ON c.id = p.copia
-  JOIN libro l ON l.isbn = c.libro
-  WHERE lettore = $1
+  $join
+  $where
   ORDER BY p.riconsegna DESC, p.scadenza ASC
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "copie-$page";
+  $query_name = "prestiti-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array($_SESSION['user'], $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($cf, $pagination, $pagination * $page));
 
   if (!$res) return;
 
@@ -48,7 +64,7 @@ function get_lends($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function($row) {
+  return get_gallery($data, function ($row) {
     return get_app_lend_card($row['id'], $row['titolo'], $row['scadenza'], $row['riconsegna']);
   });
 }

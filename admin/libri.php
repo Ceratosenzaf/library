@@ -6,13 +6,38 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where()
+{
+$sede = $_GET['sede'] ?? null;
+$autore = $_GET['autore'] ?? null;
+$editore = $_GET['editore'] ?? null;
+
+$join = "
+LEFT JOIN copia c ON c.libro = l.isbn
+JOIN scrittura s ON s.libro = l.isbn
+";
+$where = "
+WHERE
+  ($1::integer IS NULL OR c.sede = $1::integer) AND
+  ($2::integer IS NULL OR s.autore = $2::integer) AND
+  ($3::integer IS NULL OR l.editore = $3::integer)
+";
+return array($join, $where, $sede, $autore, $editore);
+}
+
 function count_total_books()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l";
+  [$join, $where, $sede, $autore, $editore] = get_where();
+
+  $sql = "
+  SELECT COUNT(*) tot FROM libro l
+  $join
+  $where
+  ";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'books-count', $sql);
-  $res = pg_execute($db, 'books-count', array());
+  $res = pg_execute($db, 'books-count', array($sede, $autore, $editore));
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
@@ -20,32 +45,24 @@ function count_total_books()
 
 function get_books($pagination)
 {
-  $search = $_GET['search'] ?? '';
+  [$join, $where, $sede, $autore, $editore] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
-  $sede = $_GET['sede'] ?? null;
-  $autore = $_GET['autore'] ?? null;
-  $editore = $_GET['editore'] ?? null;
 
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore, COUNT(c.id) tot FROM libro l
-  LEFT JOIN copia c ON c.libro = l.isbn
-  JOIN scrittura s ON s.libro = l.isbn
-  WHERE
-    (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
-    ($4::integer IS NULL OR c.sede = $4::integer) AND
-    ($5::integer IS NULL OR s.autore = $5::integer) AND
-    ($6::integer IS NULL OR l.editore = $6::integer)
+  $join
+  $where
   GROUP BY l.isbn
   ORDER BY l.titolo, l.isbn
-  LIMIT $2
-  OFFSET $3
+  LIMIT $4
+  OFFSET $5
   ";
 
-  $query_name = "catalogo-$page-$search";
+  $query_name = "catalogo-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $sede, $autore, $editore));
+  $res = pg_execute($db, $query_name, array($sede, $autore, $editore, $pagination, $pagination * $page));
 
   if (!$res) return;
 

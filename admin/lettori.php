@@ -20,25 +20,20 @@ function count_total_users()
 
 function get_users($pagination)
 {
-  $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT l.cf, l.nome, l.cognome FROM lettore l
-  WHERE
-    LOWER(l.cf) LIKE LOWER($1) OR
-    LOWER(l.nome) LIKE LOWER($1) OR
-    LOWER(l.cognome) LIKE LOWER($1)
   ORDER BY l.nome, l.cognome, l.cf
-  LIMIT $2
-  OFFSET $3
+  LIMIT $1
+  OFFSET $2
   ";
 
-  $query_name = "utenti-$page-$search";
+  $query_name = "utenti-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page));
 
   if (!$res) return;
 

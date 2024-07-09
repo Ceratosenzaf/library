@@ -6,38 +6,50 @@ check_area('app');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where() {
+  $search = '%'.($_GET['search'] ?? '').'%';
+  
+  $where = "
+  WHERE
+    LOWER(l.titolo) LIKE LOWER($1) OR
+    l.isbn LIKE $1
+  ";
+
+  return array($where, $search);
+}
+
 function count_total_books()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l"; // TODO: fix all adding relative WHERE statements
+  [$where, $search] = get_where();
 
+  $sql = "SELECT COUNT(*) tot FROM libro l $where";
+  
   $db = open_pg_connection();
   $res = pg_prepare($db, 'books-count', $sql);
-  $res = pg_execute($db, 'books-count', array());
-
+  $res = pg_execute($db, 'books-count', array($search));
+  
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
 }
 
 function get_books($pagination)
 {
-  $search = $_GET['search'] ?? '';
+  [$where, $search] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
-  WHERE
-    LOWER(l.titolo) LIKE LOWER($1) OR
-    l.isbn LIKE $1
+  $where
   ORDER BY l.titolo, l.isbn
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "catalogo-$page-$search";
+  $query_name = "catalogo-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($search, $pagination, $pagination * $page));
 
   if (!$res) return;
 

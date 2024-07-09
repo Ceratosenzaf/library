@@ -20,25 +20,20 @@ function count_total_authors()
 
 function get_authors($pagination)
 {
-  $search = $_GET['search'] ?? '';
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT * FROM autore a
-  WHERE
-    LOWER(a.nome) LIKE LOWER($1) OR
-    LOWER(a.cognome) LIKE LOWER($1) OR
-    LOWER(a.pseudonimo) LIKE LOWER($1)
   ORDER BY a.pseudonimo, a.nome, a.cognome
-  LIMIT $2
-  OFFSET $3
+  LIMIT $1
+  OFFSET $2
   ";
 
-  $query_name = "authors-$page-$search";
+  $query_name = "authors-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page));
 
   if (!$res) return;
 

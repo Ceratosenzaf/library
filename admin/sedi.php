@@ -6,13 +6,32 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where() {
+  $citta = $_GET['città'] ?? null;
+
+  $join = "JOIN citta c ON c.id = s.citta";
+  $where = "
+  WHERE
+  $1::integer IS NULL OR
+  s.citta = $1::integer
+  ";
+
+  return array($join, $where, $citta);
+}
+
 function count_total_sites()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l";
+  [$join, $where, $citta] = get_where();
+
+  $sql = "
+  SELECT COUNT(*) tot FROM sede s
+  $join
+  $where
+  ";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'books-count', $sql);
-  $res = pg_execute($db, 'books-count', array());
+  $res = pg_execute($db, 'books-count', array($citta));
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
@@ -20,26 +39,23 @@ function count_total_sites()
 
 function get_sites($pagination)
 {
-  $search = $_GET['search'] ?? '';
+  [$join, $where, $citta] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
-  $citta = $_GET['città'] ?? null;
 
   $sql = "
   SELECT s.id, s.indirizzo, c.nome FROM sede s
-  JOIN citta c ON c.id = s.citta
-  WHERE
-    (LOWER(s.indirizzo) LIKE LOWER($1) OR LOWER(c.nome) LIKE LOWER($1)) AND
-    ($4::integer IS NULL OR s.citta = $4::integer)
+  $join
+  $where
   ORDER BY c.nome, s.indirizzo
   LIMIT $2
   OFFSET $3
   ";
 
-  $query_name = "sites-$page-$search";
+  $query_name = "sites-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $citta));
+  $res = pg_execute($db, $query_name, array($citta, $pagination, $pagination * $page));
 
   if (!$res) return;
 

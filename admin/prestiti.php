@@ -6,13 +6,35 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where() {
+  $cf = $_GET['lettore'] ?? null;
+  $copia = $_GET['copia'] ?? null;
+  $sede = $_GET['sede'] ?? null;
+  
+  $join = "JOIN copia c ON c.id = p.copia";
+  $where = "
+  WHERE 
+    ($1::varchar IS NULL OR p.lettore = $2::varchar) AND
+    ($2::integer IS NULL OR p.copia = $2::integer) AND
+    ($3::integer IS NULL OR c.sede = $3::integer)
+  ";
+
+  return array($join, $where, $cf, $copia, $sede);
+}
+
 function count_total_lends()
 {
-  $sql = "SELECT COUNT(*) tot FROM prestito p";
+  [$join, $where, $cf, $copia, $sede] = get_where();
+
+  $sql = "
+  SELECT COUNT(*) tot FROM prestito p
+  $join
+  $where
+  ";;
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'lends-count', $sql);
-  $res = pg_execute($db, 'lends-count', array());
+  $res = pg_execute($db, 'lends-count', array($cf, $copia, $sede));
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
@@ -20,28 +42,23 @@ function count_total_lends()
 
 function get_lends($pagination)
 {
+  [$join, $where, $cf, $copia, $sede] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
-  $copia = $_GET['copia'] ?? null;
-  $cf = $_GET['lettore'] ?? null;
-  $sede = $_GET['sede'] ?? null;
 
   $sql = "
   SELECT p.id, p.inizio, p.scadenza, p.riconsegna FROM prestito p
-  JOIN copia c ON c.id = p.copia
-  WHERE 
-    ($3::varchar IS NULL OR p.lettore = $3::varchar) AND
-    ($4::integer IS NULL OR p.copia = $4::integer) AND
-    ($5::integer IS NULL OR c.sede = $5::integer)
+  $join
+  $where
   ORDER BY p.riconsegna DESC, p.scadenza ASC
-  LIMIT $1
-  OFFSET $2
+  LIMIT $4
+  OFFSET $5
   ";
 
   $query_name = "copie-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array($pagination, $pagination * $page, $cf, $copia, $sede));
+  $res = pg_execute($db, $query_name, array($cf, $copia, $sede, $pagination, $pagination * $page));
 
   if (!$res) return;
 

@@ -6,13 +6,37 @@ check_area('admin');
 include('../utils/db.php');
 include('../components/gallery.php');
 
+function get_where()
+{
+  $libro = $_GET['isbn'] ?? null;
+  $sede = $_GET['sede'] ?? null;
+
+  $join = "
+  JOIN libro l ON l.isbn = k.libro 
+  JOIN sede s ON s.id = k.sede 
+  JOIN citta c ON c.id = s.citta 
+  ";
+  $where = "
+  WHERE
+  ($1::varchar IS NULL OR k.libro = $1::varchar) AND
+  ($2::integer IS NULL OR k.sede = $2::integer)
+  ";
+  return array($join, $where, $libro, $sede);
+}
+
 function count_total_copies()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l";
+  [$join, $where, $libro, $sede] = get_where();
+
+  $sql = "
+  SELECT COUNT(*) tot FROM copia k
+  $join
+  $where
+  ";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'copies-count', $sql);
-  $res = pg_execute($db, 'copies-count', array());
+  $res = pg_execute($db, 'copies-count', array($libro, $sede));
 
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
@@ -20,30 +44,23 @@ function count_total_copies()
 
 function get_copies($pagination)
 {
-  $search = $_GET['search'] ?? '';
+  [$join, $where, $libro, $sede] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
-  $libro = $_GET['isbn'] ?? null;
-  $sede = $_GET['sede'] ?? null;
 
   $sql = "
   SELECT k.id, l.titolo, s.indirizzo, c.nome FROM copia k
-  JOIN libro l ON l.isbn = k.libro 
-  JOIN sede s ON s.id = k.sede 
-  JOIN citta c ON c.id = s.citta 
-  WHERE 
-    (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
-    ($4::varchar IS NULL OR k.libro = $4::varchar) AND
-    ($5::integer IS NULL OR k.sede = $5::integer)
+  $join
+  $where
   ORDER BY l.titolo, c.nome, s.indirizzo, k.id
-  LIMIT $2
-  OFFSET $3
+  LIMIT $3
+  OFFSET $4
   ";
 
-  $query_name = "copie-$page-$search";
+  $query_name = "copie-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array("%$search%", $pagination, $pagination * $page, $libro, $sede));
+  $res = pg_execute($db, $query_name, array($libro, $sede, $pagination, $pagination * $page));
 
   if (!$res) return;
 
@@ -52,7 +69,7 @@ function get_copies($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function($row) {
+  return get_gallery($data, function ($row) {
     return get_copy_card($row['id'], $row['titolo'], $row['indirizzo'], $row['nome']);
   });
 }
