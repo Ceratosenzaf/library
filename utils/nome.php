@@ -22,10 +22,10 @@ function get_site_name($citta, $indirizzo)
 function get_land_label($scadenza, $riconsegna)
 {
   if ($riconsegna) {
-    if ($riconsegna > $scadenza) return 'Riconsegnato in ritardo';
-    return 'Riconsegnato';
+    if ($riconsegna > $scadenza) return 'riconsegnato in ritardo';
+    return 'riconsegnato';
   }
   $now = (new DateTime())->format('Y-m-d');
-  if ($now > $scadenza) return 'In ritardo';
-  return 'In prestito';
+  if ($now > $scadenza) return 'in ritardo';
+  return 'in corso';
 }

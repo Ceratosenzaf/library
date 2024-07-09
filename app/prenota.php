@@ -5,16 +5,43 @@ check_area('app');
 
 include('../utils/db.php');
 
-if (!isset($_SESSION['isbn'])) redirect('./');
-
 function prenota()
 {
-  $isbn = $_SESSION['isbn'];
+  $isbn = $_SESSION['isbn'] ?? '';
+  $cf = $_SESSION['user'] ?? '';
+  $sede = $_POST['sede'] ?? null;
+
+  if ($isbn == '' || $cf == '') return;
   unset($_SESSION['isbn']);
 
-  //TODO: implement
 
-  return 'sede';
+  $sql = "SELECT id_nuova_sede sede FROM check_and_insert_prestito(cf := $1, isbn := $2, id_sede := $3)";
+
+  $db = open_pg_connection();
+  $res = pg_prepare($db, 'new-lend', $sql);
+  $res = pg_execute($db, 'new-lend', array($cf, $isbn, value_or_null($sede)));
+
+  if (!$res) return;
+
+  $row = pg_fetch_assoc($res);
+  if (!$row) return;
+
+
+  $sql = "
+  SELECT s.id, s.indirizzo, c.nome FROM sede s 
+  JOIN citta c ON c.id = s.citta 
+  WHERE s.id = $1
+  LIMIT 1
+  ";
+
+  $res = pg_prepare($db, 'new-lend-site', $sql);
+  $res = pg_execute($db, 'new-lend-site', array($row['sede']));
+  if (!$res) return;
+
+  $row = pg_fetch_assoc($res);
+  if (!$row) return;
+
+  return $row;
 }
 ?>
 
@@ -32,13 +59,20 @@ function prenota()
 <body>
   <?php include('../components/navbar.php') ?>
 
-  <?php
-  $sede = prenota();
-  if (!$sede) print '<h1>Errore in fase di prenotazione, ritenta</h1>';
-  else {
-    print "<h1>Prenotazione effettuata presso la sede di $sede</h1>";
-  }
-  ?>
+  <div class="center d-flex flex-column gap-4">
+    <?php
+    include('../utils/nome.php');
+
+    $sede = prenota();
+
+    if (!$sede) print '<h1 style="margin-top: -56px">Errore in fase di prenotazione, ritenta</h1>';
+    else {
+      $nomeSede = get_site_name($sede['nome'], $sede['indirizzo']);
+      print "<h1 style=\"margin-top: -56px\">Prenotazione effettuata presso la sede di <br> $nomeSede</h1>";
+      print '<a href="./prestiti.php">Dettagli</a>';
+    }
+    ?>
+  </div>
 </body>
 
 </html>

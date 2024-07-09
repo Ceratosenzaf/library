@@ -21,6 +21,10 @@
             <li class="nav-item">
               <a class="nav-link" href="./catalogo.php">Catalogo</a>
             </li>';
+            print '
+            <li class="nav-item">
+              <a class="nav-link" href="./prestiti.php">Prestiti</a>
+            </li>';
           } else {
             print '
             <li class="nav-item">

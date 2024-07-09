@@ -46,7 +46,7 @@ function get_lend()
   <div>
     <?php include('../components/navbar.php') ?>
 
-    <div class="center d-flex flex-column gap-4">
+    <div class="center">
       
       <?php
         include('../utils/nome.php');
@@ -61,7 +61,7 @@ function get_lend()
         
         print '<h1 style="margin-top: '.(get_v('riconsegna') ? '-56px': '-112px').';">Dettagli prestito</h1>';
         print '<div class="d-flex flex-column mx-auto max-w-content mb-4" style="text-align: left;">';
-        print '<p><b>Stato: </b>' . get_land_label(get_v('scadenza'), get_v('riconsegna')) . '</p>';
+        print '<h5 class="text-center mb-4"><span class="badge bg-primary">'.get_land_label(get_v('scadenza'), get_v('riconsegna')).'</span></h5>';
         print '<p><b>Copia: </b><a href="./copia.php?id=' . get_v('copia') . '">' . get_v('copia') . '</a></p>';
         print '<p><b>Lettore: </b><a href="./lettore.php?cf=' . get_v('lettore') . '">' . get_v('lettore') . '</a></p>';
         print '<p><b>Inizio: </b>' . get_v('inizio') . '</p>';

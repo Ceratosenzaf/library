@@ -70,3 +70,8 @@ function get_lend_card($id, $inizio, $scadenza, $riconsegna)
   $e = $riconsegna ?? 'ora';
   return get_card("$inizio - $e", get_land_label($scadenza, $riconsegna), null, "prestito.php?id=$id");
 }
+
+function get_app_lend_card($id, $titolo, $scadenza, $riconsegna)
+{
+  return get_card($titolo, get_land_label($scadenza, $riconsegna), null, "prestito.php?id=$id");
+}
