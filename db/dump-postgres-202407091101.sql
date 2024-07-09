@@ -5,7 +5,7 @@
 -- Dumped from database version 16.2
 -- Dumped by pg_dump version 16.2
 
--- Started on 2024-07-09 10:18:27
+-- Started on 2024-07-09 11:01:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 4968 (class 1262 OID 5)
+-- TOC entry 4978 (class 1262 OID 5)
 -- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -42,8 +42,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 4969 (class 0 OID 0)
--- Dependencies: 4968
+-- TOC entry 4979 (class 0 OID 0)
+-- Dependencies: 4978
 -- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
 --
 
@@ -61,7 +61,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 4970 (class 0 OID 0)
+-- TOC entry 4980 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -70,7 +70,7 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
--- TOC entry 898 (class 1247 OID 16563)
+-- TOC entry 900 (class 1247 OID 16563)
 -- Name: tipo_log; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -84,7 +84,7 @@ CREATE TYPE public.tipo_log AS ENUM (
 ALTER TYPE public.tipo_log OWNER TO postgres;
 
 --
--- TOC entry 254 (class 1255 OID 24809)
+-- TOC entry 256 (class 1255 OID 24809)
 -- Name: check_and_insert_prestito(character varying, character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -139,7 +139,7 @@ $$;
 ALTER FUNCTION public.check_and_insert_prestito(cf character varying, isbn character varying, id_sede integer) OWNER TO postgres;
 
 --
--- TOC entry 237 (class 1255 OID 16639)
+-- TOC entry 239 (class 1255 OID 16639)
 -- Name: check_copia_disponibile(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -161,7 +161,7 @@ $$;
 ALTER FUNCTION public.check_copia_disponibile() OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1255 OID 16635)
+-- TOC entry 238 (class 1255 OID 16635)
 -- Name: check_lettore_bloccato(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -181,7 +181,7 @@ $$;
 ALTER FUNCTION public.check_lettore_bloccato() OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1255 OID 16633)
+-- TOC entry 237 (class 1255 OID 16633)
 -- Name: check_prestiti_attivi(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -216,7 +216,7 @@ $$;
 ALTER FUNCTION public.check_prestiti_attivi() OWNER TO postgres;
 
 --
--- TOC entry 242 (class 1255 OID 16652)
+-- TOC entry 244 (class 1255 OID 16652)
 -- Name: check_proroga_consentita(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -237,7 +237,7 @@ $$;
 ALTER FUNCTION public.check_proroga_consentita() OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1255 OID 16649)
+-- TOC entry 243 (class 1255 OID 16649)
 -- Name: increment_ritardi(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -258,7 +258,7 @@ $$;
 ALTER FUNCTION public.increment_ritardi() OWNER TO postgres;
 
 --
--- TOC entry 239 (class 1255 OID 16644)
+-- TOC entry 241 (class 1255 OID 16644)
 -- Name: set_copia_disponibile(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -277,7 +277,7 @@ $$;
 ALTER FUNCTION public.set_copia_disponibile() OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1255 OID 16641)
+-- TOC entry 240 (class 1255 OID 16641)
 -- Name: set_copia_non_disponibile(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -296,7 +296,7 @@ $$;
 ALTER FUNCTION public.set_copia_non_disponibile() OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1255 OID 16646)
+-- TOC entry 242 (class 1255 OID 16646)
 -- Name: set_lettore_bloccato(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -315,7 +315,7 @@ $$;
 ALTER FUNCTION public.set_lettore_bloccato() OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1255 OID 16588)
+-- TOC entry 236 (class 1255 OID 16588)
 -- Name: set_scadenza_default(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -372,7 +372,7 @@ CREATE SEQUENCE public.autore_id_seq
 ALTER SEQUENCE public.autore_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4971 (class 0 OID 0)
+-- TOC entry 4981 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: autore_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -428,7 +428,7 @@ CREATE SEQUENCE public.casa_editrice_id_seq
 ALTER SEQUENCE public.casa_editrice_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4972 (class 0 OID 0)
+-- TOC entry 4982 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: casa_editrice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -466,7 +466,7 @@ CREATE SEQUENCE public.citta_id_seq
 ALTER SEQUENCE public.citta_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4973 (class 0 OID 0)
+-- TOC entry 4983 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: citta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -507,7 +507,7 @@ CREATE SEQUENCE public.copia_id_seq
 ALTER SEQUENCE public.copia_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4974 (class 0 OID 0)
+-- TOC entry 4984 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: copia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -585,7 +585,7 @@ CREATE SEQUENCE public.log_id_seq
 ALTER SEQUENCE public.log_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4975 (class 0 OID 0)
+-- TOC entry 4985 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -627,26 +627,13 @@ CREATE SEQUENCE public.prestito_id_seq
 ALTER SEQUENCE public.prestito_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4976 (class 0 OID 0)
+-- TOC entry 4986 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: prestito_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.prestito_id_seq OWNED BY public.prestito.id;
 
-
---
--- TOC entry 225 (class 1259 OID 16495)
--- Name: scrittura; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.scrittura (
-    libro character(13) NOT NULL,
-    autore integer NOT NULL
-);
-
-
-ALTER TABLE public.scrittura OWNER TO postgres;
 
 --
 -- TOC entry 221 (class 1259 OID 16447)
@@ -661,6 +648,39 @@ CREATE TABLE public.sede (
 
 
 ALTER TABLE public.sede OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 24818)
+-- Name: ritardi_sede; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.ritardi_sede AS
+ SELECT s.id,
+    p.copia,
+    c.libro,
+    p.lettore,
+    (CURRENT_DATE - p.scadenza) AS giorni_ritardo
+   FROM ((public.sede s
+     JOIN public.copia c ON ((s.id = c.sede)))
+     JOIN public.prestito p ON ((c.id = p.copia)))
+  WHERE ((p.riconsegna IS NULL) AND (p.scadenza < now()))
+  ORDER BY s.id, (CURRENT_DATE - p.scadenza) DESC;
+
+
+ALTER VIEW public.ritardi_sede OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 16495)
+-- Name: scrittura; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.scrittura (
+    libro character(13) NOT NULL,
+    autore integer NOT NULL
+);
+
+
+ALTER TABLE public.scrittura OWNER TO postgres;
 
 --
 -- TOC entry 220 (class 1259 OID 16446)
@@ -679,7 +699,7 @@ CREATE SEQUENCE public.sede_id_seq
 ALTER SEQUENCE public.sede_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4977 (class 0 OID 0)
+-- TOC entry 4987 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: sede_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -688,7 +708,24 @@ ALTER SEQUENCE public.sede_id_seq OWNED BY public.sede.id;
 
 
 --
--- TOC entry 4748 (class 2604 OID 16434)
+-- TOC entry 234 (class 1259 OID 24814)
+-- Name: statistiche_sede; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.statistiche_sede AS
+ SELECT s.id,
+    count(c.id) AS copie,
+    count(DISTINCT c.libro) AS libri,
+    count(c.id) FILTER (WHERE (c.disponibile IS FALSE)) AS prestiti_attivi
+   FROM (public.sede s
+     LEFT JOIN public.copia c ON ((s.id = c.sede)))
+  GROUP BY s.id;
+
+
+ALTER VIEW public.statistiche_sede OWNER TO postgres;
+
+--
+-- TOC entry 4756 (class 2604 OID 16434)
 -- Name: autore id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -696,7 +733,7 @@ ALTER TABLE ONLY public.autore ALTER COLUMN id SET DEFAULT nextval('public.autor
 
 
 --
--- TOC entry 4751 (class 2604 OID 16474)
+-- TOC entry 4759 (class 2604 OID 16474)
 -- Name: casa_editrice id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -704,7 +741,7 @@ ALTER TABLE ONLY public.casa_editrice ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 4749 (class 2604 OID 16443)
+-- TOC entry 4757 (class 2604 OID 16443)
 -- Name: citta id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -712,7 +749,7 @@ ALTER TABLE ONLY public.citta ALTER COLUMN id SET DEFAULT nextval('public.citta_
 
 
 --
--- TOC entry 4752 (class 2604 OID 16514)
+-- TOC entry 4760 (class 2604 OID 16514)
 -- Name: copia id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -720,7 +757,7 @@ ALTER TABLE ONLY public.copia ALTER COLUMN id SET DEFAULT nextval('public.copia_
 
 
 --
--- TOC entry 4759 (class 2604 OID 16573)
+-- TOC entry 4767 (class 2604 OID 16573)
 -- Name: log id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -728,7 +765,7 @@ ALTER TABLE ONLY public.log ALTER COLUMN id SET DEFAULT nextval('public.log_id_s
 
 
 --
--- TOC entry 4758 (class 2604 OID 16549)
+-- TOC entry 4766 (class 2604 OID 16549)
 -- Name: prestito id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -736,7 +773,7 @@ ALTER TABLE ONLY public.prestito ALTER COLUMN id SET DEFAULT nextval('public.pre
 
 
 --
--- TOC entry 4750 (class 2604 OID 16450)
+-- TOC entry 4758 (class 2604 OID 16450)
 -- Name: sede id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -744,7 +781,7 @@ ALTER TABLE ONLY public.sede ALTER COLUMN id SET DEFAULT nextval('public.sede_id
 
 
 --
--- TOC entry 4946 (class 0 OID 16431)
+-- TOC entry 4956 (class 0 OID 16431)
 -- Dependencies: 217
 -- Data for Name: autore; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -757,7 +794,7 @@ COPY public.autore (id, nome, cognome, pseudonimo, nascita, morte, biografia) FR
 
 
 --
--- TOC entry 4958 (class 0 OID 16536)
+-- TOC entry 4968 (class 0 OID 16536)
 -- Dependencies: 229
 -- Data for Name: bibliotecario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -768,7 +805,7 @@ crtdvd02m01l157c	davide	cerato	5f4dcc3b5aa765d61d8327deb882cf99
 
 
 --
--- TOC entry 4952 (class 0 OID 16471)
+-- TOC entry 4962 (class 0 OID 16471)
 -- Dependencies: 223
 -- Data for Name: casa_editrice; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -780,7 +817,7 @@ COPY public.casa_editrice (id, nome, fondazione, cessazione, citta) FROM stdin;
 
 
 --
--- TOC entry 4948 (class 0 OID 16440)
+-- TOC entry 4958 (class 0 OID 16440)
 -- Dependencies: 219
 -- Data for Name: citta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -792,20 +829,21 @@ COPY public.citta (id, nome) FROM stdin;
 
 
 --
--- TOC entry 4956 (class 0 OID 16511)
+-- TOC entry 4966 (class 0 OID 16511)
 -- Dependencies: 227
 -- Data for Name: copia; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.copia (id, libro, sede, disponibile, archiviato) FROM stdin;
-2	9788883376542	1	t	f
 3	9788807900495	2	t	f
 1	9788807900495	1	f	f
+4	9788807900495	1	t	f
+2	9788883376542	1	f	f
 \.
 
 
 --
--- TOC entry 4957 (class 0 OID 16527)
+-- TOC entry 4967 (class 0 OID 16527)
 -- Dependencies: 228
 -- Data for Name: lettore; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -819,7 +857,7 @@ crtdvd02m01l157c	Davide	Cerato	f	0	f	5f4dcc3b5aa765d61d8327deb882cf99
 
 
 --
--- TOC entry 4953 (class 0 OID 16483)
+-- TOC entry 4963 (class 0 OID 16483)
 -- Dependencies: 224
 -- Data for Name: libro; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -832,7 +870,7 @@ COPY public.libro (isbn, titolo, trama, editore, pagine, pubblicazione) FROM std
 
 
 --
--- TOC entry 4962 (class 0 OID 16570)
+-- TOC entry 4972 (class 0 OID 16570)
 -- Dependencies: 233
 -- Data for Name: log; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -842,7 +880,7 @@ COPY public.log (id, tipo, prestito, bibliotecario, "timestamp", dati_pre, dati_
 
 
 --
--- TOC entry 4960 (class 0 OID 16546)
+-- TOC entry 4970 (class 0 OID 16546)
 -- Dependencies: 231
 -- Data for Name: prestito; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -860,11 +898,12 @@ COPY public.prestito (id, lettore, copia, inizio, scadenza, riconsegna) FROM std
 21	crtdvd02m01l157c	2	2024-07-09	2024-08-08	2024-07-09
 20	crtdvd02m01l157c	3	2024-07-09	2024-08-08	2024-07-09
 22	crtdvd02m01l157c	1	2024-07-09	2024-08-08	\N
+23	crtdvd02m01l157c	2	2024-06-04	2024-07-04	\N
 \.
 
 
 --
--- TOC entry 4954 (class 0 OID 16495)
+-- TOC entry 4964 (class 0 OID 16495)
 -- Dependencies: 225
 -- Data for Name: scrittura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -877,7 +916,7 @@ COPY public.scrittura (libro, autore) FROM stdin;
 
 
 --
--- TOC entry 4950 (class 0 OID 16447)
+-- TOC entry 4960 (class 0 OID 16447)
 -- Dependencies: 221
 -- Data for Name: sede; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -889,7 +928,7 @@ COPY public.sede (id, indirizzo, citta) FROM stdin;
 
 
 --
--- TOC entry 4978 (class 0 OID 0)
+-- TOC entry 4988 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: autore_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -898,7 +937,7 @@ SELECT pg_catalog.setval('public.autore_id_seq', 3, true);
 
 
 --
--- TOC entry 4979 (class 0 OID 0)
+-- TOC entry 4989 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: casa_editrice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -907,7 +946,7 @@ SELECT pg_catalog.setval('public.casa_editrice_id_seq', 2, true);
 
 
 --
--- TOC entry 4980 (class 0 OID 0)
+-- TOC entry 4990 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: citta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -916,16 +955,16 @@ SELECT pg_catalog.setval('public.citta_id_seq', 2, true);
 
 
 --
--- TOC entry 4981 (class 0 OID 0)
+-- TOC entry 4991 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: copia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.copia_id_seq', 3, true);
+SELECT pg_catalog.setval('public.copia_id_seq', 4, true);
 
 
 --
--- TOC entry 4982 (class 0 OID 0)
+-- TOC entry 4992 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -934,16 +973,16 @@ SELECT pg_catalog.setval('public.log_id_seq', 1, false);
 
 
 --
--- TOC entry 4983 (class 0 OID 0)
+-- TOC entry 4993 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: prestito_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.prestito_id_seq', 22, true);
+SELECT pg_catalog.setval('public.prestito_id_seq', 23, true);
 
 
 --
--- TOC entry 4984 (class 0 OID 0)
+-- TOC entry 4994 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: sede_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -952,7 +991,7 @@ SELECT pg_catalog.setval('public.sede_id_seq', 2, true);
 
 
 --
--- TOC entry 4761 (class 2606 OID 16438)
+-- TOC entry 4769 (class 2606 OID 16438)
 -- Name: autore autore_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -961,7 +1000,7 @@ ALTER TABLE ONLY public.autore
 
 
 --
--- TOC entry 4777 (class 2606 OID 16542)
+-- TOC entry 4785 (class 2606 OID 16542)
 -- Name: bibliotecario bibliotecario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -970,7 +1009,7 @@ ALTER TABLE ONLY public.bibliotecario
 
 
 --
--- TOC entry 4767 (class 2606 OID 16476)
+-- TOC entry 4775 (class 2606 OID 16476)
 -- Name: casa_editrice casa_editrice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -979,7 +1018,7 @@ ALTER TABLE ONLY public.casa_editrice
 
 
 --
--- TOC entry 4763 (class 2606 OID 16445)
+-- TOC entry 4771 (class 2606 OID 16445)
 -- Name: citta citta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -988,7 +1027,7 @@ ALTER TABLE ONLY public.citta
 
 
 --
--- TOC entry 4773 (class 2606 OID 16516)
+-- TOC entry 4781 (class 2606 OID 16516)
 -- Name: copia copia_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -997,7 +1036,7 @@ ALTER TABLE ONLY public.copia
 
 
 --
--- TOC entry 4775 (class 2606 OID 16533)
+-- TOC entry 4783 (class 2606 OID 16533)
 -- Name: lettore lettore_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1006,7 +1045,7 @@ ALTER TABLE ONLY public.lettore
 
 
 --
--- TOC entry 4769 (class 2606 OID 16593)
+-- TOC entry 4777 (class 2606 OID 16593)
 -- Name: libro libro_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1015,7 +1054,7 @@ ALTER TABLE ONLY public.libro
 
 
 --
--- TOC entry 4781 (class 2606 OID 16577)
+-- TOC entry 4789 (class 2606 OID 16577)
 -- Name: log log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1024,7 +1063,7 @@ ALTER TABLE ONLY public.log
 
 
 --
--- TOC entry 4779 (class 2606 OID 16551)
+-- TOC entry 4787 (class 2606 OID 16551)
 -- Name: prestito prestito_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1033,7 +1072,7 @@ ALTER TABLE ONLY public.prestito
 
 
 --
--- TOC entry 4771 (class 2606 OID 16499)
+-- TOC entry 4779 (class 2606 OID 16499)
 -- Name: scrittura scrittura_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1042,7 +1081,7 @@ ALTER TABLE ONLY public.scrittura
 
 
 --
--- TOC entry 4765 (class 2606 OID 16452)
+-- TOC entry 4773 (class 2606 OID 16452)
 -- Name: sede sede_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1051,7 +1090,7 @@ ALTER TABLE ONLY public.sede
 
 
 --
--- TOC entry 4794 (class 2620 OID 16640)
+-- TOC entry 4802 (class 2620 OID 16640)
 -- Name: prestito check_copia_disponibile_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1059,7 +1098,7 @@ CREATE TRIGGER check_copia_disponibile_trigger BEFORE INSERT ON public.prestito 
 
 
 --
--- TOC entry 4795 (class 2620 OID 16636)
+-- TOC entry 4803 (class 2620 OID 16636)
 -- Name: prestito check_lettore_bloccato_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1067,7 +1106,7 @@ CREATE TRIGGER check_lettore_bloccato_trigger BEFORE INSERT ON public.prestito F
 
 
 --
--- TOC entry 4796 (class 2620 OID 16634)
+-- TOC entry 4804 (class 2620 OID 16634)
 -- Name: prestito check_prestiti_attivi_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1075,7 +1114,7 @@ CREATE TRIGGER check_prestiti_attivi_trigger BEFORE INSERT ON public.prestito FO
 
 
 --
--- TOC entry 4797 (class 2620 OID 16653)
+-- TOC entry 4805 (class 2620 OID 16653)
 -- Name: prestito check_proroga_consentita_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1083,7 +1122,7 @@ CREATE TRIGGER check_proroga_consentita_trigger BEFORE UPDATE OF scadenza ON pub
 
 
 --
--- TOC entry 4798 (class 2620 OID 16651)
+-- TOC entry 4806 (class 2620 OID 16651)
 -- Name: prestito increment_ritardi_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1091,7 +1130,7 @@ CREATE TRIGGER increment_ritardi_trigger AFTER UPDATE OF riconsegna ON public.pr
 
 
 --
--- TOC entry 4799 (class 2620 OID 16645)
+-- TOC entry 4807 (class 2620 OID 16645)
 -- Name: prestito set_copia_disponibile_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1099,7 +1138,7 @@ CREATE TRIGGER set_copia_disponibile_trigger AFTER UPDATE OF riconsegna ON publi
 
 
 --
--- TOC entry 4800 (class 2620 OID 16642)
+-- TOC entry 4808 (class 2620 OID 16642)
 -- Name: prestito set_copia_non_disponibile_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1107,7 +1146,7 @@ CREATE TRIGGER set_copia_non_disponibile_trigger AFTER INSERT ON public.prestito
 
 
 --
--- TOC entry 4793 (class 2620 OID 16648)
+-- TOC entry 4801 (class 2620 OID 16648)
 -- Name: lettore set_lettore_bloccato_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1115,7 +1154,7 @@ CREATE TRIGGER set_lettore_bloccato_trigger BEFORE UPDATE OF ritardi ON public.l
 
 
 --
--- TOC entry 4801 (class 2620 OID 16654)
+-- TOC entry 4809 (class 2620 OID 16654)
 -- Name: prestito set_scadenza_default_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1123,7 +1162,7 @@ CREATE TRIGGER set_scadenza_default_trigger BEFORE INSERT ON public.prestito FOR
 
 
 --
--- TOC entry 4783 (class 2606 OID 16477)
+-- TOC entry 4791 (class 2606 OID 16477)
 -- Name: casa_editrice casa_editrice_sede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1132,7 +1171,7 @@ ALTER TABLE ONLY public.casa_editrice
 
 
 --
--- TOC entry 4787 (class 2606 OID 16599)
+-- TOC entry 4795 (class 2606 OID 16599)
 -- Name: copia copia_isbn_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1141,7 +1180,7 @@ ALTER TABLE ONLY public.copia
 
 
 --
--- TOC entry 4788 (class 2606 OID 16522)
+-- TOC entry 4796 (class 2606 OID 16522)
 -- Name: copia copia_sede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1150,7 +1189,7 @@ ALTER TABLE ONLY public.copia
 
 
 --
--- TOC entry 4784 (class 2606 OID 16490)
+-- TOC entry 4792 (class 2606 OID 16490)
 -- Name: libro libro_editore_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1159,7 +1198,7 @@ ALTER TABLE ONLY public.libro
 
 
 --
--- TOC entry 4791 (class 2606 OID 16583)
+-- TOC entry 4799 (class 2606 OID 16583)
 -- Name: log log_bibliotecario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1168,7 +1207,7 @@ ALTER TABLE ONLY public.log
 
 
 --
--- TOC entry 4792 (class 2606 OID 16578)
+-- TOC entry 4800 (class 2606 OID 16578)
 -- Name: log log_prestito_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1177,7 +1216,7 @@ ALTER TABLE ONLY public.log
 
 
 --
--- TOC entry 4789 (class 2606 OID 16557)
+-- TOC entry 4797 (class 2606 OID 16557)
 -- Name: prestito prestito_copia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1186,7 +1225,7 @@ ALTER TABLE ONLY public.prestito
 
 
 --
--- TOC entry 4790 (class 2606 OID 16552)
+-- TOC entry 4798 (class 2606 OID 16552)
 -- Name: prestito prestito_lettore_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1195,7 +1234,7 @@ ALTER TABLE ONLY public.prestito
 
 
 --
--- TOC entry 4785 (class 2606 OID 16505)
+-- TOC entry 4793 (class 2606 OID 16505)
 -- Name: scrittura scrittura_autore_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1204,7 +1243,7 @@ ALTER TABLE ONLY public.scrittura
 
 
 --
--- TOC entry 4786 (class 2606 OID 16594)
+-- TOC entry 4794 (class 2606 OID 16594)
 -- Name: scrittura scrittura_libro_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1213,7 +1252,7 @@ ALTER TABLE ONLY public.scrittura
 
 
 --
--- TOC entry 4782 (class 2606 OID 16453)
+-- TOC entry 4790 (class 2606 OID 16453)
 -- Name: sede sede_citta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1221,7 +1260,7 @@ ALTER TABLE ONLY public.sede
     ADD CONSTRAINT sede_citta_fkey FOREIGN KEY (citta) REFERENCES public.citta(id);
 
 
--- Completed on 2024-07-09 10:18:28
+-- Completed on 2024-07-09 11:01:56
 
 --
 -- PostgreSQL database dump complete
