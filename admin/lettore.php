@@ -72,14 +72,6 @@ function get_user()
           </label>
         </div>
         ';
-        print '
-        <div class="form-check text-left max-w-content mx-auto">
-          <input class="form-check-input" type="checkbox" value="true" name="bloccato" id="bloccato" ' . (get_v('bloccato') == 't' ? 'checked' : '') . ' />
-          <label class="form-check-label" for="bloccato">
-            Bloccato
-          </label>
-        </div>
-        ';
         print '<button type="submit" class="btn btn-primary">' . ($_SESSION['cf'] ? 'Modifica' : 'Crea') . '</button>'
         ?>
       </form>

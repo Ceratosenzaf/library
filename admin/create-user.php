@@ -13,7 +13,6 @@ $nome = $_POST['nome'] ?? '';
 $cognome = $_POST['cognome'] ?? '';
 $password = $_POST['password'] ?? '';
 $premium = isset($_POST['premium']) ? 'TRUE': 'FALSE';
-$bloccato = isset($_POST['bloccato']) ? 'TRUE': 'FALSE';
 
 if ($cf == '' || $password == '' || $nome == '' || $cognome == '')
   redirect_error('input');
@@ -23,11 +22,11 @@ if (!$checkCF->validaCodiceFiscale($cf)) redirect_error('input');
 
 // TODO: valida nome e cognome col cf
 
-$sql = "INSERT INTO lettore (cf, nome, cognome, password, premium, bloccato) VALUES (upper($1), $2, $3, $4, $5, $6)";
+$sql = "INSERT INTO lettore (cf, nome, cognome, password, premium) VALUES (upper($1), $2, $3, $4, $5)";
 
 $db = open_pg_connection();
 $res = pg_prepare($db, 'new-user', $sql);
-$res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, md5($password), $premium, $bloccato));
+$res = pg_execute($db, 'new-user', array($cf, $nome, $cognome, md5($password), $premium));
 
 if (!$res) redirect_error('input');
 
