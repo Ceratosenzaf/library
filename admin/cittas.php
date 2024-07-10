@@ -8,7 +8,7 @@ include('../components/gallery.php');
 
 function count_total_cities()
 {
-  $sql = "SELECT COUNT(*) tot FROM libro l";
+  $sql = "SELECT COUNT(*) tot FROM citta c";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, 'books-count', $sql);

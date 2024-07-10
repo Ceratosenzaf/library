@@ -18,6 +18,7 @@ check_area('admin');
 <body>
   <?php include('../components/navbar.php') ?>
   <h1>Portale bibliotecari</h1>
+  <img src="../public/libri.jpg" alt="libri">
 </body>
 
 </html>
