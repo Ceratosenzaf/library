@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+$_SESSION['area'] = $_GET['redirect'] ?? 'app';
+$area = $_SESSION['area'] == 'admin' ? 'bibliotecari' : 'lettori';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,14 +18,7 @@
 
 <body class="center">
   <h1>
-    <?php
-    session_start();
-
-    $_SESSION['area'] = $_GET['redirect'] ?? 'app';
-
-    $area = $_SESSION['area'] == 'admin' ? 'bibliotecari' : 'lettori';
-    print("Accedi all'area $area");
-    ?>
+    <?php print("Accedi all'area $area"); ?>
   </h1>
 
   <form method="post" action="login-result.php" class="d-flex flex-column gap-4">

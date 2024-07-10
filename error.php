@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+$error = $_SESSION['error'] ?? null;
+unset($_SESSION['error']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,12 +18,7 @@
 
 <body class="center">
   <?php
-
-  session_start();
-  $error = $_SESSION['error'] ?? null;
-  unset($_SESSION['error']);
-
-  if ($error == 'credentials')
+  if ($error == 'credentials') 
     print("<h1>Credenziali errate</h1>");
   else if ($error == 'input')
     print("<h1>L'input non rispetta il formato richiesto</h1>");
@@ -24,7 +26,6 @@
     print("<h1>Password e conferma password non coincidono</h1>");
   else
     print("<h1>Errore generico</h1>");
-
   ?>
   <a href="./">ritorna alla home</a>
 </body>
