@@ -17,17 +17,19 @@ function prenota()
   $db = open_pg_connection();
   start_pg_transaction($db);
 
-  function rollback_and_return($db) {
+  function rollback_and_return($db)
+  {
+    $_SESSION['errorMessage'] = get_pg_parsed_error($db);
     rollback_pg_transaction($db);
     return;
   }
 
   // insert
-  $sql = "SELECT id_prestito, id_sede FROM check_and_insert_prestito($1, $2, $3)"; // TODO: check when using passing $3
+  $sql = "SELECT id_prestito, id_sede FROM check_and_insert_prestito($1, $2, $3)";
   $res = pg_prepare($db, 'new-lend', $sql);
-  $res = pg_execute($db, 'new-lend', array($cf, $isbn, value_or_null($sede)));
+  $res = @pg_execute($db, 'new-lend', array($cf, $isbn, value_or_null($sede)));
 
-  if (!$res) return;
+  if (!$res) return rollback_and_return($db);
 
   $row = pg_fetch_assoc($res);
   if (!$row) return rollback_and_return($db);
@@ -53,7 +55,7 @@ function prenota()
 
   $res = pg_prepare($db, "log-prestito", $sql);
   $res = pg_execute($db, "log-prestito", array($prestito, json_encode(new stdClass()), json_encode($dati_post)));
-  
+
   if (!$res) return rollback_and_return($db);
 
   // notify
@@ -96,12 +98,15 @@ function prenota()
 
     $data = prenota();
 
-    if (!$data) print '<h1 style="margin-top: -56px">Errore in fase di prenotazione, ritenta</h1>';
-    else {
+    if (!$data) {
+      print '<h1 style="margin-top: -56px">Errore in fase di prenotazione, ritenta</h1>';
+      if ($_SESSION['errorMessage']) print $_SESSION['errorMessage'];
+      unset($_SESSION['errorMessage']);
+    } else {
       [$sede, $prestito] = $data;
       $nomeSede = get_site_name($sede['nome'], $sede['indirizzo']);
       print "<h1 style=\"margin-top: -56px\">Prenotazione effettuata presso la sede di <br> $nomeSede</h1>";
-      print '<a href="./prestito.php?id='.$prestito.'">Dettagli</a>';
+      print '<a href="./prestito.php?id=' . $prestito . '">Dettagli</a>';
     }
     ?>
   </div>

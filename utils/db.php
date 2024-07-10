@@ -37,13 +37,21 @@ function value_or_null($v)
   return empty($v) ? null : $v;
 }
 
+function get_pg_parsed_error($db)
+{
+  $str = pg_last_error($db);
+  $offset = 6;
+  return substr($str, $offset, strpos($str, 'CONTEXT') - $offset);
+}
+
 function log_prestito($prestito, $tipo, $func)
 {
 
   $db = open_pg_connection();
   start_pg_transaction($db);
 
-  function rollback_and_return($db) {
+  function rollback_and_return($db)
+  {
     rollback_pg_transaction($db);
     return false;
   }

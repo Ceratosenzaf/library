@@ -84,7 +84,7 @@ function get_lend()
 
         // riconsegna
         print '<form method="post" action="riconsegna.php" class="d-flex gap-2 row flex-column flex-md-row mx-auto mx-md-0 mt-2">';
-        print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required min="' . get_v('inizio') . '" value="' . $now . '" />';
+        print '<input type="date" id="data" name="data" class="col form-control text-center" placeholder="la sua data di riconsegna" required min="' . get_v('inizio') . '" max="' . $now . '" value="' . $now . '" />';
         print '<button type="submit" class="col col-md-3 btn btn-primary">Riconsegna</button>';
         print '</form>';
       }
