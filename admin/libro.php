@@ -158,7 +158,7 @@ function get_all_authors()
         print '</select>';
 
 
-        print '<textarea id="trama" name="trama" class="form-control" rows="5" placeholder="la sua trama">' . get_v('trama')  . '</textarea>';
+        print '<textarea id="trama" name="trama" class="form-control" rows="5" placeholder="la sua trama" required>' . get_v('trama')  . '</textarea>';
 
         print '<button type="submit" class="btn btn-primary">' . ($_SESSION['libro'] ? 'Modifica' : 'Crea') . '</button>';
         ?>
