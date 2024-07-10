@@ -87,7 +87,7 @@ function get_all_cities()
         print '<input type="date" id="fondazione" name="fondazione" class="form-control text-center" placeholder="la sua data di fondazione" value="' . get_v('fondazione') . '" />';
         print '<input type="date" id="cessazione" name="cessazione" class="form-control text-center" placeholder="la sua data di cessazione" value="' . get_v('cessazione') . '" />';
         print '<select name="città" title="città" class="form-control text-center d-block">';
-        print '<option value="" disabled ' . ($_SESSION['editore'] ? '' : 'selected') . '>città</option>';
+        print '<option value="" ' . ($_SESSION['editore'] ? '' : 'selected') . '>città</option>';
         foreach ($cities as $city) {
           $selected = get_v('citta') == $city['id'] ? 'selected' : '';
           print "<option $selected value=\"" . $city['id'] . '">' . $city['nome'] . '</option>';
