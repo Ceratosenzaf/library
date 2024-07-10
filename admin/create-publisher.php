@@ -8,7 +8,7 @@ session_start();
 $nome = $_POST['nome'] ?? '';
 $fondazione = $_POST['fondazione'] ?? '';
 $cessazione = $_POST['cessazione'] ?? '';
-$citta = $_POST['citta'] ?? '';
+$citta = $_POST['città'] ?? '';
 
 if ($nome == '') redirect_error('input');
 

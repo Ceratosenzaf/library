@@ -9,7 +9,7 @@ $id = $_SESSION['autore'] ?? '';
 $nome = $_POST['nome'] ?? '';
 $fondazione = $_POST['fondazione'] ?? '';
 $cessazione = $_POST['cessazione'] ?? '';
-$citta = $_POST['citta'] ?? '';
+$citta = $_POST['città'] ?? '';
 
 if ($id == '' || $nome == '') redirect_error('input');
 unset($_SESSION['editore']);
