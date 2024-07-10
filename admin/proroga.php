@@ -9,7 +9,7 @@ $id = $_SESSION['prestito'] ?? '';
 $data = $_POST['data'] ?? '';
 
 if ($id == '' || $data == '') redirect_error('input');
-unset($_SESSION['città']);
+unset($_SESSION['prestito']);
 
 $res = log_prestito($id, 'proroga', function ($db) {
   global $id, $data;
