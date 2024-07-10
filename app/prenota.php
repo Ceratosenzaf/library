@@ -23,7 +23,7 @@ function prenota()
   }
 
   // insert
-  $sql = "SELECT id_prestito, id_sede FROM check_and_insert_prestito($1, $2, $3)";
+  $sql = "SELECT id_prestito, id_sede FROM check_and_insert_prestito($1, $2, $3)"; // TODO: check when using passing $3
   $res = pg_prepare($db, 'new-lend', $sql);
   $res = pg_execute($db, 'new-lend', array($cf, $isbn, value_or_null($sede)));
 

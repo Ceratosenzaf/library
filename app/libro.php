@@ -35,7 +35,7 @@ function get_autori()
   $isbn = $_SESSION['isbn'];
 
   $sql = "
-  SELECT a.nome, a.cognome, a.pseudonimo FROM scrittura s 
+  SELECT a.id, a.nome, a.cognome, a.pseudonimo FROM scrittura s 
   JOIN autore a ON a.id = s.autore 
   WHERE s.libro = $1
   ";
@@ -114,7 +114,9 @@ function get_sedi_e_copie()
   print '<h1>' . $libro['titolo'] . '</h1>';
   print '<h5>di ';
   foreach ($autori as $i => $autore) {
-    print get_writer_name($autore['pseudonimo'] ?? null, $autore['nome'] ?? null, $autore['cognome'] ?? null);
+    $display = get_writer_name($autore['pseudonimo'] ?? null, $autore['nome'] ?? null, $autore['cognome'] ?? null);
+    $link = './autore.php?id=' . $autore['id'];
+    print "<a href=\"$link\">$display</a>";
     if ($i != count($autori) - 1) print ', ';
   }
   print '</h5>';
@@ -123,7 +125,7 @@ function get_sedi_e_copie()
   print '<p class="text-justify">' . $libro['trama'] . '</p>';
 
   print '<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center g-4 mb-4">';
-  print '<div class="col">' . get_simple_card('Pubblicazione', $libro['pubblicazione']) . '</div>';
+  print '<div class="col">' . get_simple_card('Pubblicazione', $libro['pubblicazione'] ?? 'sconosciuta') . '</div>';
   print '<div class="col text-capitalize">' . get_simple_card('Editore', $libro['editore']) . '</div>';
   print '<div class="col">' . get_simple_card('Pagine', $libro['pagine']) . '</div>';
   print '</div>';
@@ -142,7 +144,7 @@ function get_sedi_e_copie()
     foreach ($sedi as $sede) {
       $copie = $sede['copie'];
       $disabled = $copie == 0 ? 'disabled' : '';
-      print "<option $disabled value=\"" . $sede['id'] . '">' . get_site_name($sede['nome'], $sede['indirizzo']). " ($copie copie disponibili)</option>";
+      print "<option $disabled value=\"" . $sede['id'] . '">' . get_site_name($sede['nome'], $sede['indirizzo']) . " ($copie copie disponibili)</option>";
     }
     print '</select>';
     print '<button class="btn btn-primary" type="submit">Prenota</button>';

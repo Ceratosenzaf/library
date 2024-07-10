@@ -6,50 +6,58 @@ check_area('app');
 include('../utils/db.php');
 include('../components/gallery.php');
 
-function get_where() {
-  $search = '%'.($_GET['search'] ?? '').'%';
-  
+function get_where()
+{
+  $search = '%' . ($_GET['search'] ?? '') . '%';
+  $autore =$_GET['autore'] ?? null;
+
+  $join = "JOIN scrittura s ON s.libro = l.isbn";
   $where = "
   WHERE
-    LOWER(l.titolo) LIKE LOWER($1) OR
-    l.isbn LIKE $1
+    (LOWER(l.titolo) LIKE LOWER($1) OR l.isbn LIKE $1) AND
+    ($2::integer IS NULL OR s.autore = $2::integer)
   ";
 
-  return array($where, $search);
+  return array($join, $where, $search, $autore);
 }
 
 function count_total_books()
 {
-  [$where, $search] = get_where();
+  [$join, $where, $search, $autore] = get_where();
 
-  $sql = "SELECT COUNT(*) tot FROM libro l $where";
-  
+  $sql = "
+  SELECT COUNT(*) tot FROM libro l 
+  $join 
+  $where
+  ";
+
   $db = open_pg_connection();
   $res = pg_prepare($db, 'books-count', $sql);
-  $res = pg_execute($db, 'books-count', array($search));
-  
+  $res = pg_execute($db, 'books-count', array($search, $autore));
+
   if (!$res) return 0;
   return pg_fetch_result($res, 0, 'tot') ?? 0;
 }
 
 function get_books($pagination)
 {
-  [$where, $search] = get_where();
+  [$join, $where, $search, $autore] = get_where();
   $page = ($_GET['page'] ?? 1) - 1;
 
   $sql = "
   SELECT l.isbn, l.titolo, l.trama, l.editore FROM libro l
+  $join
   $where
   ORDER BY l.titolo, l.isbn
-  LIMIT $2
-  OFFSET $3
+  LIMIT $3
+  OFFSET $4
   ";
 
   $query_name = "catalogo-$page";
 
   $db = open_pg_connection();
   $res = pg_prepare($db, $query_name, $sql);
-  $res = pg_execute($db, $query_name, array($search, $pagination, $pagination * $page));
+  $res = pg_execute($db, $query_name, array($search, $autore, $pagination, $pagination * $page));
 
   if (!$res) return;
 
@@ -58,7 +66,7 @@ function get_books($pagination)
   while ($row = pg_fetch_assoc($res))
     array_push($data, $row);
 
-  return get_gallery($data, function($row) {
+  return get_gallery($data, function ($row) {
     return get_book_card($row['titolo'], $row['isbn'], $row['trama']);
   });
 }
@@ -77,7 +85,7 @@ function get_books($pagination)
 
 <body>
   <?php include('../components/navbar.php') ?>
-  
+
   <h1>Catalogo</h1>
 
   <?php
