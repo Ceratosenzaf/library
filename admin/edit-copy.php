@@ -6,16 +6,17 @@ include '../utils/redirect.php';
 session_start();
 
 $id = $_SESSION['copia'] ?? '';
-$archiviato = isset($_POST['archiviato']) ? 'TRUE': 'FALSE';
+$sede = $_POST['sede'] ?? '';
+$archiviato = isset($_POST['archiviato']) ? 'TRUE' : 'FALSE';
 
-if ($id == '') redirect_error('input');
+if ($id == '' || $sede == '') redirect_error('input');
 unset($_SESSION['copia']);
 
-$sql = "UPDATE copia SET archiviato = $2 WHERE id = $1";
+$sql = "UPDATE copia SET archiviato = $2, sede = $3 WHERE id = $1";
 
 $db = open_pg_connection();
 $res = pg_prepare($db, "edit-copy-$id", $sql);
-$res = pg_execute($db, "edit-copy-$id", array($id, $archiviato));
+$res = pg_execute($db, "edit-copy-$id", array($id, $archiviato, $sede));
 
 if (!$res) redirect_error('credentials');
 

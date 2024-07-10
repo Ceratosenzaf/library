@@ -120,7 +120,7 @@ function get_all_books()
         }
         print '</select>';
 
-        print '<select name="sede" title="sede" class="form-control text-center d-block" required '.($_SESSION['copia'] ? 'disabled': '').' >';
+        print '<select name="sede" title="sede" class="form-control text-center d-block" required >';
         print '<option value="" disabled '.($_SESSION['copia'] ? '' : 'selected').'>sede</option>';
         foreach ($sites as $site) {
           $selected = get_v('sede') == $site['id'] ? 'selected': '';
