@@ -5,7 +5,7 @@ include '../utils/redirect.php';
 
 session_start();
 
-$id = $_SESSION['autore'] ?? '';
+$id = $_SESSION['editore'] ?? '';
 $nome = $_POST['nome'] ?? '';
 $fondazione = $_POST['fondazione'] ?? '';
 $cessazione = $_POST['cessazione'] ?? '';
